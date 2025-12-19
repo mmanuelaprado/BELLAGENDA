@@ -4,84 +4,108 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <title>Prado Agenda - Agendamento Online e CRM para Beleza</title>
+    <title>Prado Agenda - Seu App de Beleza</title>
     
-    <!-- PWA Meta Tags -->
+    <!-- PWA & Native Meta Tags -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Prado Agenda" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
     
-    <!-- Identidade Visual Oficial (Ícone Circular Rosa) -->
-    <!-- Favicon padrão para navegadores modernos -->
+    <!-- Ícones de Alta Resolução -->
     <link rel="icon" type="image/png" href="https://i.ibb.co/3Y8p2v7/prado-circle-512.png" />
-    <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/3Y8p2v7/prado-circle-512.png" />
-    
-    <!-- Tamanhos específicos para compatibilidade total -->
-    <link rel="icon" type="image/png" sizes="16x16" href="https://i.ibb.co/3Y8p2v7/prado-circle-512.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/3Y8p2v7/prado-circle-512.png" />
-    <link rel="icon" type="image/png" sizes="48x48" href="https://i.ibb.co/3Y8p2v7/prado-circle-512.png" />
-    
-    <!-- Apple Touch Icon (iOS Home Screen) -->
     <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/3Y8p2v7/prado-circle-512.png" />
     
-    <!-- Meta Tags Primárias -->
-    <meta name="title" content="Prado Agenda - Agendamento Online e CRM para Beleza">
-    <meta name="description" content="Automatize seus agendamentos, organize seu CRM e profissionalize seu atendimento. O sistema mais elegante para manicures, cabeleireiros e especialistas em estética.">
-    <meta name="author" content="Prado Social">
+    <!-- Cor de Identidade do Sistema -->
     <meta name="theme-color" content="#FF1493">
-
-    <!-- Open Graph / Facebook / WhatsApp -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://pradoagenda.vercel.app/">
-    <meta property="og:title" content="Prado Agenda - Agendamento Online e CRM para Beleza">
-    <meta property="og:description" content="Chega de mensagens fora de hora no WhatsApp. Tenha sua própria página de agendamentos online e fidelize suas clientes com nosso CRM inteligente.">
-    <meta property="og:image" content="https://i.ibb.co/3Y8p2v7/prado-circle-512.png">
-    <meta property="og:site_name" content="Prado Agenda">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
       :root {
-        --sat: env(safe-area-inset-top);
-        --sar: env(safe-area-inset-right);
-        --sab: env(safe-area-inset-bottom);
-        --sal: env(safe-area-inset-left);
+        /* Safe Areas para telas com Notch (iPhone X+, novos Androids) */
+        --sat: env(safe-area-inset-top, 0px);
+        --sab: env(safe-area-inset-bottom, 0px);
+        --sar: env(safe-area-inset-right, 0px);
+        --sal: env(safe-area-inset-left, 0px);
         --brand-pink: #FF1493;
       }
+      
+      * {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        user-select: none;
+        outline: none;
+      }
+
+      input, textarea {
+        user-select: text !important;
+        -webkit-user-select: text !important;
+      }
+
       body {
         font-family: 'Poppins', sans-serif;
-        overscroll-behavior-y: contain;
         background-color: #F9FAFB;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        position: fixed;
+        /* Evita o efeito 'bounce' do navegador que denuncia ser uma webview */
+        overscroll-behavior: none;
       }
-      .brand-gradient {
-        background: linear-gradient(135deg, var(--brand-pink) 0%, #FF69B4 100%);
+
+      #root {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        /* Garante que o app ocupe toda a área incluindo as laterais em landscape */
+        padding-left: var(--sal);
+        padding-right: var(--sar);
       }
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
+
+      .app-content {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        /* Espaçamento dinâmico para a barra de status e barra de navegação inferior */
+        padding-top: var(--sat);
+        padding-bottom: calc(75px + var(--sab));
+        overscroll-behavior-y: contain;
       }
-      .custom-scrollbar::-webkit-scrollbar-track {
-        background: #f1f1f1;
+
+      @media (min-width: 768px) {
+        .app-content {
+          padding-bottom: 0;
+          padding-top: 0;
+        }
       }
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: var(--brand-pink);
-        border-radius: 10px;
+
+      /* Estilo Glassmorphism para elementos fixos */
+      .glass-nav {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
       }
-      @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+
+      @keyframes appReveal {
+        from { opacity: 0; transform: scale(0.98); }
+        to { opacity: 1; transform: scale(1); }
       }
-      .animate-fade-in-up {
-        animation: fadeInUp 0.6s ease-out forwards;
+
+      .animate-app-reveal {
+        animation: appReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       }
-      .animate-fade-in {
-        animation: fadeIn 0.4s ease-out forwards;
-      }
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
+
+      /* No-scrollbar utility */
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
     <script>
       window.process = { env: { API_KEY: "" } };

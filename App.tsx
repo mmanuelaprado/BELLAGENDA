@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Professional, Service, Appointment, Client, BusinessConfig } from './types.ts';
 import Sidebar from './Sidebar.tsx';
-import MobileHeader from './components/MobileHeader.tsx';
 import BottomNav from './components/BottomNav.tsx';
 import LandingPage from './views/LandingPage.tsx';
 import AuthView from './views/AuthView.tsx';
@@ -23,6 +22,7 @@ import AppsPage from './views/AppsPage.tsx';
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('landing');
   const [user, setUser] = useState<Professional | null>(null);
+  const [isNative, setIsNative] = useState(false);
   
   const [businessConfig, setBusinessConfig] = useState<BusinessConfig>({
     interval: 60,
@@ -48,6 +48,10 @@ const App: React.FC = () => {
   const [professionals, setProfessionals] = useState<Professional[]>([]);
 
   useEffect(() => {
+    // Detecção básica se está rodando como app nativo (Capacitor/Cordova)
+    const isNativeApp = (window as any).Capacitor || (window as any).cordova || window.navigator.userAgent.includes('Expo');
+    setIsNative(!!isNativeApp);
+
     const params = new URLSearchParams(window.location.search);
     const bookingSlug = params.get('b');
     
@@ -107,6 +111,11 @@ const App: React.FC = () => {
     const newId = Math.random().toString();
     setAppointments(prev => [...prev, { ...a, id: newId }]);
     handleSaveToCRM(a.clientName, a.clientPhone, a.date);
+    
+    // Futura integração nativa: Feedback tátil (vibration)
+    if (isNative && (window as any).navigator.vibrate) {
+      window.navigator.vibrate(200);
+    }
   };
 
   const renderCurrentView = () => {
@@ -117,25 +126,8 @@ const App: React.FC = () => {
     };
     
     switch (currentView) {
-      case 'dashboard': return (
-        <Dashboard 
-          {...commonProps} 
-          appointments={appointments} 
-          services={services} 
-          clients={clients}
-          onSaveClient={handleSaveToCRM}
-          onUpdateStatus={(id, s) => setAppointments(appointments.map(a => a.id === id ? {...a, status: s} : a))} 
-        />
-      );
-      case 'agenda': return (
-        <AgendaPage 
-          {...commonProps} 
-          appointments={appointments} 
-          services={services} 
-          clients={clients}
-          onSaveClient={handleSaveToCRM}
-        />
-      );
+      case 'dashboard': return <Dashboard {...commonProps} appointments={appointments} services={services} clients={clients} onSaveClient={handleSaveToCRM} onUpdateStatus={(id, s) => setAppointments(appointments.map(a => a.id === id ? {...a, status: s} : a))} />;
+      case 'agenda': return <AgendaPage {...commonProps} appointments={appointments} services={services} clients={clients} onSaveClient={handleSaveToCRM} />;
       case 'clients': return <ClientsPage {...commonProps} clients={clients} />;
       case 'services': return <ServicesPage {...commonProps} services={services} onAdd={(s) => setServices([...services, {...s, id: Math.random().toString()}])} onToggle={(id) => setServices(services.map(s => s.id === id ? {...s, active: !s.active} : s))} onDelete={(id) => setServices(services.filter(s => s.id !== id))} />;
       case 'professionals': return <ProfessionalsPage {...commonProps} professionals={professionals} onAdd={(p) => setProfessionals([...professionals, p])} />;
@@ -150,30 +142,20 @@ const App: React.FC = () => {
     }
   };
 
-  if (currentView === 'landing') return <LandingPage onStart={() => setCurrentView('signup')} onLogin={() => setCurrentView('login')} />;
-  if (currentView === 'login') return <AuthView type="login" onAuth={handleLogin} onToggle={() => setCurrentView('signup')} />;
-  if (currentView === 'signup') return <AuthView type="signup" onAuth={handleLogin} onToggle={() => setCurrentView('login')} />;
-  if (currentView === 'booking') return (
-    <BookingPage 
-      professional={user || {name:'', businessName:'Sua Empresa', email:'', slug:'demo'}} 
-      config={businessConfig} 
-      services={services.filter(s => s.active)} 
-      onComplete={handleCompleteBooking} 
-      onHome={() => user ? setCurrentView('dashboard') : setCurrentView('landing')} 
-    />
-  );
-
   const isFullAppView = ['landing', 'login', 'signup', 'booking'].includes(currentView);
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-50 overflow-x-hidden">
+    <div className={`flex h-full w-full bg-gray-50 ${isNative ? 'native-env' : 'web-env'}`}>
+      {/* Sidebar para Desktop */}
       {!isFullAppView && <Sidebar activeView={currentView} navigate={(v: View) => setCurrentView(v)} onLogout={handleLogout} />}
-      <div className="flex-grow flex flex-col min-h-screen">
-        {/* Mobile Header reduzido apenas para logotipo/status em certas views se necessário */}
-        {/* Aqui optamos por deixar a view gerenciar seu próprio header interno para visual de app */}
-        <div className="flex-grow pb-20 md:pb-0">
+      
+      <div className="flex-1 flex flex-col relative overflow-hidden h-full">
+        {/* Conteúdo rolável com suporte a Safe Areas */}
+        <div className={`app-content animate-app-reveal ${isFullAppView ? 'h-full !pb-0 !pt-0' : ''}`}>
           {renderCurrentView()}
         </div>
+        
+        {/* Navegação inferior para Mobile/Nativo */}
         {!isFullAppView && <BottomNav activeView={currentView} navigate={(v: View) => setCurrentView(v)} />}
       </div>
     </div>

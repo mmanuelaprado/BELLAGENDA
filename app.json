@@ -4,11 +4,12 @@
     "name": "Prado Agenda",
     "slug": "prado-agenda",
     "version": "1.0.0",
+    "owner": "pradosocial",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "https://i.ibb.co/3Y8p2v7/prado-circle-512.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "https://i.ibb.co/3Y8p2v7/prado-circle-512.png",
       "resizeMode": "contain",
       "backgroundColor": "#FF1493"
     },
@@ -17,17 +18,21 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.pradosocial.agenda"
+      "bundleIdentifier": "com.pradosocial.agenda",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "https://i.ibb.co/3Y8p2v7/prado-circle-512.png",
         "backgroundColor": "#FF1493"
       },
-      "package": "com.pradosocial.agenda"
+      "package": "com.pradosocial.agenda",
+      "permissions": ["CAMERA", "NOTIFICATIONS"]
     },
     "web": {
-      "favicon": "./assets/favicon.png",
+      "favicon": "https://i.ibb.co/3Y8p2v7/prado-circle-512.png",
       "bundler": "metro"
     }
   }
