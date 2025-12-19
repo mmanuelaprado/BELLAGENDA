@@ -32,7 +32,7 @@ const AuthView: React.FC<AuthViewProps> = ({ type, onAuth, onToggle }) => {
         <div className="absolute top-0 right-0 w-64 h-64 bg-pink-600 rounded-full blur-[100px] opacity-20 -translate-y-1/2"></div>
         <div className="max-w-md mx-auto relative z-10">
           <div className="flex items-center space-x-2 mb-12">
-            <div className="w-10 h-10 bg-[#FF1493] rounded-xl flex items-center justify-center shadow-lg shadow-pink-900/50">
+            <div className="w-10 h-10 bg-[#FF1493] rounded-full flex items-center justify-center shadow-lg shadow-pink-900/50 overflow-hidden">
               <span className="text-white font-bold text-xl">P</span>
             </div>
             <span className="text-2xl font-black tracking-tighter uppercase">Pradoagenda</span>

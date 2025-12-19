@@ -13,9 +13,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Prado Agenda" />
     
-    <!-- Favicons Oficiais (Nova Marca) -->
-    <link rel="icon" type="image/png" href="https://i.ibb.co/v4m8YqX/prado-icon-192.png" />
-    <link rel="apple-touch-icon" href="https://i.ibb.co/v4m8YqX/prado-icon-192.png" />
+    <!-- Favicons Oficiais (Identidade Circular Rosa) -->
+    <link rel="icon" type="image/png" sizes="16x16" href="https://i.ibb.co/3Y8p2v7/prado-circle-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/3Y8p2v7/prado-circle-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="https://i.ibb.co/3Y8p2v7/prado-circle-48.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/3Y8p2v7/prado-circle-180.png" />
     
     <!-- Meta Tags Primárias -->
     <meta name="title" content="Prado Agenda - Agendamento Online e CRM para Beleza">
@@ -28,7 +30,7 @@
     <meta property="og:url" content="https://pradoagenda.vercel.app/">
     <meta property="og:title" content="Prado Agenda - Agendamento Online e CRM para Beleza">
     <meta property="og:description" content="Chega de mensagens fora de hora no WhatsApp. Tenha sua própria página de agendamentos online e fidelize suas clientes com nosso CRM inteligente.">
-    <meta property="og:image" content="https://i.ibb.co/Vv0f7vG/prado-icon-512.png">
+    <meta property="og:image" content="https://i.ibb.co/3Y8p2v7/prado-circle-512.png">
     <meta property="og:site_name" content="Prado Agenda">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -39,6 +41,7 @@
         --sar: env(safe-area-inset-right);
         --sab: env(safe-area-inset-bottom);
         --sal: env(safe-area-inset-left);
+        --brand-pink: #FF1493;
       }
       body {
         font-family: 'Poppins', sans-serif;
@@ -46,7 +49,7 @@
         background-color: #F9FAFB;
       }
       .brand-gradient {
-        background: linear-gradient(135deg, #FF1493 0%, #FF69B4 100%);
+        background: linear-gradient(135deg, var(--brand-pink) 0%, #FF69B4 100%);
       }
       .custom-scrollbar::-webkit-scrollbar {
         width: 6px;
@@ -55,7 +58,7 @@
         background: #f1f1f1;
       }
       .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #FF1493;
+        background: var(--brand-pink);
         border-radius: 10px;
       }
       @keyframes fadeInUp {

@@ -13,7 +13,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
       {/* Navbar */}
       <nav className="flex items-center justify-between px-6 py-6 max-w-7xl mx-auto w-full">
         <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 bg-[#FF1493] rounded-xl flex items-center justify-center shadow-lg shadow-pink-200">
+          <div className="w-10 h-10 bg-[#FF1493] rounded-full flex items-center justify-center shadow-lg shadow-pink-200 overflow-hidden">
             <span className="text-white font-bold text-xl">P</span>
           </div>
           <span className="text-2xl font-black tracking-tighter text-black uppercase">Prado Agenda</span>
@@ -70,7 +70,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
                 { icon: <Icons.Clock />, text: "Atendimento moderno e prático para suas clientes" }
               ].map((item, i) => (
                 <li key={i} className="flex items-center space-x-3 text-black font-bold">
-                  <div className="w-10 h-10 bg-pink-50 text-[#FF1493] rounded-xl flex items-center justify-center">
+                  <div className="w-10 h-10 bg-pink-50 text-[#FF1493] rounded-full flex items-center justify-center">
                     {item.icon}
                   </div>
                   <span>{item.text}</span>
@@ -84,7 +84,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
             <div className="bg-white rounded-[3rem] shadow-2xl border border-gray-100 p-8">
                <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-[#FF1493] rounded-2xl flex items-center justify-center text-white font-bold">P</div>
+                    <div className="w-12 h-12 bg-[#FF1493] rounded-full flex items-center justify-center text-white font-bold">P</div>
                     <div>
                       <p className="font-black text-black text-sm uppercase tracking-tight">Painel Administrativo</p>
                       <p className="text-gray-400 text-xs font-bold">Gestão Prado Agenda</p>
@@ -111,7 +111,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
 
       <footer className="py-20 border-t border-gray-100 text-center">
         <div className="flex items-center justify-center space-x-2 mb-4">
-          <div className="w-6 h-6 bg-[#FF1493] rounded-lg flex items-center justify-center">
+          <div className="w-6 h-6 bg-[#FF1493] rounded-full flex items-center justify-center">
             <span className="text-white font-bold text-xs">P</span>
           </div>
           <span className="text-sm font-black tracking-widest text-black uppercase">Prado Social</span>
