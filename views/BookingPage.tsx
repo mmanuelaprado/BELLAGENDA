@@ -100,7 +100,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
               </div>
             </div>
           </div>
-          <button onClick={onHome} className="w-full bg-black text-white py-6 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-gray-800 transition-all shadow-xl">Voltar ao início</button>
+          <button onClick={onHome} className="w-full bg-black text-white py-6 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-gray-800 transition-all shadow-xl">Voltar ao painel</button>
         </div>
       </div>
     );
@@ -109,12 +109,6 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-6 flex justify-between items-center">
-          <button onClick={onHome} className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-black flex items-center gap-2">
-            <Icons.ArrowLeft /> Sair do agendamento
-          </button>
-        </div>
-        
         <header className="text-center mb-12">
           <div className="w-24 h-24 bg-black text-white rounded-[2.5rem] flex items-center justify-center mx-auto mb-6 shadow-2xl border-4 border-white">
              <span className="text-4xl font-black uppercase">{professional.businessName.charAt(0)}</span>
@@ -161,9 +155,9 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
           <div className="flex-grow p-10">
             {step === 1 && (
               <div className="animate-fade-in space-y-8">
-                <h2 className="text-2xl font-black text-black tracking-tight uppercase">O que vamos fazer hoje?</h2>
+                <h2 className="text-2xl font-black text-black tracking-tight uppercase">Escolha um Serviço</h2>
                 <div className="grid grid-cols-1 gap-4">
-                  {services.map(s => (
+                  {services.length > 0 ? services.map(s => (
                     <button 
                       key={s.id}
                       onClick={() => { setSelectedService(s); setStep(2); }}
@@ -180,7 +174,9 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
                       </div>
                       <div className="rotate-180 text-gray-200 group-hover:text-[#FF1493] transition-colors"><Icons.ArrowLeft /></div>
                     </button>
-                  ))}
+                  )) : (
+                    <p className="text-center py-10 text-gray-300 font-bold uppercase tracking-widest">Nenhum serviço disponível.</p>
+                  )}
                 </div>
               </div>
             )}
@@ -188,7 +184,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
             {step === 2 && (
               <div className="animate-fade-in space-y-8">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-black text-black tracking-tight uppercase">Melhor dia e hora</h2>
+                  <h2 className="text-2xl font-black text-black tracking-tight uppercase">Dia e Hora</h2>
                   <button onClick={() => setStep(1)} className="text-gray-300 hover:text-black transition-colors"><Icons.ArrowLeft /></button>
                 </div>
                 
@@ -208,8 +204,10 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
                   <div className="grid grid-cols-7 gap-1">
                     {calendarDays.map((day, idx) => {
                       const d = day ? new Date(currentYear, currentMonth, day) : null;
-                      const isPast = d ? d < new Date(new Date().setHours(0,0,0,0)) : true;
-                      const dateStr = d ? d.toISOString().split('T')[0] : '';
+                      const todayCheck = new Date();
+                      todayCheck.setHours(0,0,0,0);
+                      const isPast = d ? d < todayCheck : true;
+                      const dateStr = d ? `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}` : '';
                       return (
                         <div key={idx} className="aspect-square">
                           {day && (
@@ -242,7 +240,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
                         {t}
                       </button>
                     )) : (
-                      <p className="col-span-3 text-center py-10 text-gray-300 font-bold uppercase tracking-widest text-[10px]">Sem horários vagos nesta data.</p>
+                      <p className="col-span-3 text-center py-10 text-gray-300 font-bold uppercase tracking-widest text-[10px]">Agenda lotada ou fechada nesta data.</p>
                     )}
                   </div>
                 )}
@@ -260,7 +258,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
             {step === 3 && (
               <div className="animate-fade-in space-y-8">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-black text-black tracking-tight uppercase">Seus Dados</h2>
+                  <h2 className="text-2xl font-black text-black tracking-tight uppercase">Confirmação</h2>
                   <button onClick={() => setStep(2)} className="text-gray-300 hover:text-black transition-colors"><Icons.ArrowLeft /></button>
                 </div>
 
@@ -271,7 +269,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
                       type="text" 
                       className="w-full px-6 py-5 rounded-2xl border border-gray-100 bg-gray-50 focus:ring-2 focus:ring-[#FF1493] outline-none font-bold"
                       value={clientInfo.name}
-                      placeholder="Como quer ser chamada(o)?"
+                      placeholder="Ex: Maria Souza"
                       onChange={e => setClientInfo({...clientInfo, name: e.target.value})}
                     />
                   </div>
@@ -285,12 +283,16 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
                       onChange={e => setClientInfo({...clientInfo, phone: e.target.value})}
                     />
                   </div>
+                  <div className="bg-pink-50 p-6 rounded-2xl border border-pink-100">
+                    <p className="text-[10px] font-black text-[#FF1493] uppercase tracking-widest mb-1">Resumo da Reserva</p>
+                    <p className="font-bold text-black text-sm">{selectedService?.name} • {selectedDate.split('-').reverse().join('/')} às {selectedTime}</p>
+                  </div>
                   <button 
                     disabled={!clientInfo.name || !clientInfo.phone} 
                     onClick={handleConfirm} 
                     className="w-full bg-[#FF1493] text-white py-6 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-pink-700 transition-all shadow-2xl shadow-pink-100 disabled:opacity-30"
                   >
-                    Confirmar Agendamento
+                    Confirmar Agendamento Agora
                   </button>
                 </div>
               </div>

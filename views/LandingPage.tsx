@@ -36,7 +36,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
           </div>
           
           <h1 className="text-5xl md:text-8xl font-black text-black leading-none mb-6 tracking-tighter">
-            Ainda agenda clientes pelo <span className="text-[#FF1493] no-underline inline-block">WhatsApp?</span>
+            Ainda agenda clientes pelo <span className="text-[#FF1493] no-underline">WhatsApp?</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-gray-500 mb-10 max-w-3xl mx-auto font-medium leading-relaxed">
@@ -120,40 +120,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
                     <span className="text-[10px] font-black text-yellow-500 uppercase">Pendente</span>
                   </div>
                </div>
-               <div className="mt-8 flex justify-center">
-                  <div className="px-4 py-2 bg-black text-white rounded-full text-[10px] font-black uppercase tracking-widest">Acessar Agenda</div>
-               </div>
             </div>
           </div>
         </div>
-
-        {/* Target Audience / Icon Grid */}
-        <div className="max-w-5xl mx-auto mb-20">
-          <p className="text-gray-400 font-black uppercase tracking-[0.2em] text-xs mb-10">Público que já utiliza</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { label: "Manicure", icon: <Icons.Nails /> },
-              { label: "Salão de Beleza", icon: <Icons.Scissors /> },
-              { label: "Lash Designer", icon: <Icons.EyeOff /> },
-              { label: "Sobrancelhas", icon: <Icons.Sparkles /> }
-            ].map((target, i) => (
-              <div key={i} className="bg-gray-50 p-8 rounded-[2rem] hover:bg-pink-50 transition-colors group">
-                <div className="text-black group-hover:text-[#FF1493] mb-4 flex justify-center">{target.icon}</div>
-                <p className="font-black text-xs uppercase tracking-widest text-black">{target.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="max-w-3xl mx-auto py-20 px-10 bg-black rounded-[3rem] text-white">
-          <h3 className="text-2xl md:text-3xl font-black italic mb-4 leading-tight">
-            "Sua agenda trabalhando por você, enquanto você foca no que faz de melhor"
-          </h3>
-          <p className="text-pink-500 font-black uppercase tracking-widest text-xs">Autoridade Prado Social</p>
-        </div>
       </main>
 
-      {/* Footer */}
       <footer className="py-20 border-t border-gray-100 text-center">
         <div className="flex items-center justify-center space-x-2 mb-4">
           <div className="w-6 h-6 bg-[#FF1493] rounded-lg flex items-center justify-center">

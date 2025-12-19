@@ -32,17 +32,18 @@ const Dashboard: React.FC<DashboardProps> = ({ user, appointments, services, onU
         </div>
         
         <div className="flex flex-col sm:flex-row items-center gap-4">
+          {/* BOTÃO PARA TESTAR AGENDAMENTO DO CLIENTE */}
           <button 
             onClick={() => navigate('booking')}
             className="w-full sm:w-auto bg-[#FF1493] text-white px-8 py-4 rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest hover:bg-pink-700 transition-all shadow-xl shadow-pink-100 flex items-center justify-center space-x-3"
           >
             <Icons.Eye />
-            <span>Ver sua página pública</span>
+            <span>Visualizar como Cliente</span>
           </button>
           
           <div className="flex items-center bg-white border border-gray-100 rounded-3xl p-2 pl-4 shadow-sm gap-2 w-full sm:w-auto">
             <div className="flex flex-col mr-4 overflow-hidden py-1">
-              <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest">Link de Agendamento</span>
+              <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest">Seu Link (Para Clientes)</span>
               <span className="text-xs font-bold text-[#FF1493] truncate max-w-[150px]">{bookingUrl}</span>
             </div>
             <button onClick={handleCopy} className="bg-black text-white p-3 rounded-2xl hover:bg-gray-800 transition-all flex items-center justify-center space-x-2">
@@ -52,6 +53,14 @@ const Dashboard: React.FC<DashboardProps> = ({ user, appointments, services, onU
           </div>
         </div>
       </header>
+
+      {/* Informação sobre o link fictício */}
+      <div className="bg-gray-100 p-4 rounded-2xl mb-8 flex items-center space-x-3">
+        <div className="text-gray-400"><Icons.Building /></div>
+        <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+          O domínio pradoagenda.com é fictício para este protótipo. Use o botão "Visualizar como Cliente" acima para simular como seu cliente agendará sozinho.
+        </p>
+      </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
@@ -88,7 +97,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, appointments, services, onU
           <button onClick={() => navigate('agenda')} className="text-[10px] font-black uppercase tracking-widest text-[#FF1493] hover:underline">Ver Agenda Completa</button>
         </div>
         <div className="divide-y divide-gray-50">
-          {appointments.length > 0 ? appointments.slice().reverse().map((appt) => {
+          {appointments.length > 0 ? [...appointments].reverse().slice(0, 5).map((appt) => {
             const service = services.find(s => s.id === appt.serviceId);
             return (
               <div key={appt.id} className="p-8 flex flex-col lg:flex-row lg:items-center justify-between hover:bg-gray-50 transition-colors">
