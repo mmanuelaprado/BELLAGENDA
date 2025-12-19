@@ -1,14 +1,13 @@
 
 import React from 'react';
-import { Icons } from '../constants';
+import { Icons } from '../constants.tsx';
 
 interface LandingPageProps {
   onStart: () => void;
   onLogin: () => void;
-  onDemo: () => void;
 }
 
-const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin, onDemo }) => {
+const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Navbar */}
@@ -50,9 +49,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin, onDemo }) =
             <button onClick={onStart} className="w-full sm:w-auto bg-[#FF1493] text-white px-12 py-5 rounded-full text-lg font-black uppercase tracking-widest hover:bg-pink-700 transition-all shadow-2xl shadow-pink-300 hover:-translate-y-1">
               Profissionalize seu atendimento hoje
             </button>
-            <button onClick={onDemo} className="w-full sm:w-auto bg-black text-white px-12 py-5 rounded-full text-lg font-black uppercase tracking-widest hover:bg-gray-800 transition-all shadow-xl">
-              Agende de forma inteligente
-            </button>
           </div>
         </div>
 
@@ -86,40 +82,48 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin, onDemo }) =
 
           <div className="relative">
             <div className="absolute inset-0 bg-pink-100 rounded-[3rem] rotate-3 scale-105 -z-10"></div>
+            {/* SaaS Dashboard Mockup */}
             <div className="bg-white rounded-[3rem] shadow-2xl border border-gray-100 p-8">
                <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-black rounded-2xl flex items-center justify-center text-white font-bold">P</div>
+                    <div className="w-12 h-12 bg-[#FF1493] rounded-2xl flex items-center justify-center text-white font-bold">P</div>
                     <div>
-                      <p className="font-black text-black text-sm uppercase">Prado Beauty</p>
-                      <p className="text-gray-400 text-xs font-bold">Agendamento Online</p>
+                      <p className="font-black text-black text-sm uppercase tracking-tight">Painel Administrativo</p>
+                      <p className="text-gray-400 text-xs font-bold">Gestão Prado Agenda</p>
                     </div>
                   </div>
                   <div className="flex space-x-2">
-                    <div className="w-3 h-3 rounded-full bg-pink-200"></div>
-                    <div className="w-3 h-3 rounded-full bg-pink-200"></div>
+                    <div className="w-8 h-2 rounded-full bg-green-400"></div>
                   </div>
                </div>
-               <div className="space-y-4">
-                  <div className="p-5 bg-pink-50 rounded-2xl border-2 border-[#FF1493] flex justify-between items-center">
-                    <div>
-                      <p className="font-black text-black text-sm">Manicure Gel</p>
-                      <p className="text-xs text-gray-500 font-bold">60 min • R$ 80,00</p>
-                    </div>
-                    <Icons.Plus />
+               <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="bg-gray-50 p-4 rounded-2xl">
+                    <p className="text-[10px] text-gray-400 font-black uppercase">Receita Hoje</p>
+                    <p className="text-lg font-black text-black">R$ 480,00</p>
                   </div>
-                  <div className="p-5 bg-gray-50 rounded-2xl border border-gray-100 flex justify-between items-center opacity-60">
-                    <div>
-                      <p className="font-black text-black text-sm">Lash Design</p>
-                      <p className="text-xs text-gray-500 font-bold">120 min • R$ 150,00</p>
-                    </div>
-                    <Icons.Plus />
+                  <div className="bg-gray-50 p-4 rounded-2xl">
+                    <p className="text-[10px] text-gray-400 font-black uppercase">Agendamentos</p>
+                    <p className="text-lg font-black text-black">12</p>
                   </div>
                </div>
-               <div className="mt-8 pt-8 border-t border-gray-100 flex items-center justify-center space-x-4">
-                  <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-[#FF1493]"><Icons.Nails /></div>
-                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-400"><Icons.Eye /></div>
-                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-400"><Icons.Scissors /></div>
+               <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 bg-white border border-gray-50 rounded-xl shadow-sm">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-[#FF1493] font-bold text-xs">M</div>
+                      <span className="text-xs font-bold">Maria Silva - 14:00</span>
+                    </div>
+                    <span className="text-[10px] font-black text-green-500 uppercase">Confirmado</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-white border border-gray-50 rounded-xl shadow-sm">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-[#FF1493] font-bold text-xs">J</div>
+                      <span className="text-xs font-bold">Julia Costa - 15:30</span>
+                    </div>
+                    <span className="text-[10px] font-black text-yellow-500 uppercase">Pendente</span>
+                  </div>
+               </div>
+               <div className="mt-8 flex justify-center">
+                  <div className="px-4 py-2 bg-black text-white rounded-full text-[10px] font-black uppercase tracking-widest">Acessar Agenda</div>
                </div>
             </div>
           </div>
@@ -132,7 +136,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin, onDemo }) =
             {[
               { label: "Manicure", icon: <Icons.Nails /> },
               { label: "Salão de Beleza", icon: <Icons.Scissors /> },
-              { label: "Lash Designer", icon: <Icons.Eye /> },
+              { label: "Lash Designer", icon: <Icons.EyeOff /> },
               { label: "Sobrancelhas", icon: <Icons.Sparkles /> }
             ].map((target, i) => (
               <div key={i} className="bg-gray-50 p-8 rounded-[2rem] hover:bg-pink-50 transition-colors group">

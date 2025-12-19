@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
-import { Professional, Client, View } from '../types';
-import { Icons } from '../constants';
+import { Professional, Client, View } from '../types.ts';
+import { Icons } from '../constants.tsx';
+import Sidebar from '../Sidebar.tsx';
 
 interface ClientsPageProps {
   user: Professional | null;
@@ -13,18 +14,6 @@ interface ClientsPageProps {
 const ClientsPage: React.FC<ClientsPageProps> = ({ user, clients, onLogout, navigate }) => {
   const [search, setSearch] = useState('');
 
-  const SidebarItem = ({ view, icon: Icon, label }: { view: View; icon: any; label: string }) => (
-    <button 
-      onClick={() => navigate(view)} 
-      className={`w-full flex items-center space-x-3 p-3 rounded-xl font-medium transition-all ${
-        view === 'clients' ? 'bg-[#FF1493] text-white shadow-lg shadow-pink-900/20' : 'text-gray-400 hover:bg-white/5'
-      }`}
-    >
-      <Icon />
-      <span className="text-sm">{label}</span>
-    </button>
-  );
-
   const filteredClients = clients.filter(c => 
     c.name.toLowerCase().includes(search.toLowerCase()) || 
     c.phone.includes(search)
@@ -32,86 +21,81 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ user, clients, onLogout, navi
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
-      <aside className="hidden md:flex flex-col w-72 bg-black text-white p-6 sticky top-0 h-screen overflow-y-auto custom-scrollbar">
-        <div className="flex items-center space-x-2 mb-10 px-2">
-          <div className="w-8 h-8 bg-[#FF1493] rounded-lg flex items-center justify-center font-bold">P</div>
-          <span className="text-xl font-bold">Pradoagenda</span>
-        </div>
-        <nav className="flex-grow space-y-1">
-          <SidebarItem view="dashboard" icon={Icons.Home} label="Início" />
-          <SidebarItem view="agenda" icon={Icons.Calendar} label="Agenda" />
-          <SidebarItem view="clients" icon={Icons.Users} label="Clientes" />
-          <SidebarItem view="services" icon={Icons.Scissors} label="Serviços" />
-          <SidebarItem view="marketing" icon={Icons.Sparkles} label="Marketing AI" />
-          <SidebarItem view="professionals" icon={Icons.Users} label="Profissionais" />
-          <SidebarItem view="finance" icon={Icons.Finance} label="Financeiro" />
-          <SidebarItem view="recurring" icon={Icons.Repeat} label="Agendamento recorrente" />
-          <SidebarItem view="inactivation" icon={Icons.Ban} label="Inativação de horários" />
-          <SidebarItem view="company" icon={Icons.Building} label="Minha empresa" />
-          <SidebarItem view="settings" icon={Icons.Settings} label="Configurações" />
-          <SidebarItem view="apps" icon={Icons.Smartphone} label="Baixar Apps" />
-        </nav>
-        <button onClick={onLogout} className="flex items-center space-x-3 p-3 text-gray-400 hover:text-white transition-colors mt-8">
-          <Icons.Logout />
-          <span>Sair</span>
-        </button>
-      </aside>
+      <Sidebar activeView="clients" navigate={navigate} onLogout={onLogout} />
 
       <main className="flex-grow p-4 md:p-10 max-w-7xl mx-auto w-full pb-24 md:pb-10">
+        <button 
+          onClick={() => navigate('dashboard')}
+          className="flex items-center text-gray-400 hover:text-[#FF1493] mb-6 transition-colors font-black text-[10px] uppercase tracking-[0.2em] group"
+        >
+          <span className="mr-2 group-hover:-translate-x-1 transition-transform">
+            <Icons.ArrowLeft />
+          </span>
+          Voltar ao Painel
+        </button>
+
         <header className="mb-8">
-          <h1 className="text-3xl font-bold text-black">Seus Clientes</h1>
-          <p className="text-gray-500">Acompanhe quem confia no seu trabalho.</p>
+          <h1 className="text-3xl font-black text-black tracking-tight uppercase">Seus Clientes</h1>
+          <p className="text-gray-500 font-medium tracking-tight">Acompanhe quem confia no seu trabalho.</p>
         </header>
 
-        <div className="mb-6">
-          <input 
-            type="text" 
-            placeholder="Pesquisar por nome ou WhatsApp..."
-            className="w-full md:max-w-md px-6 py-4 rounded-2xl border border-gray-100 shadow-sm outline-none focus:ring-2 focus:ring-[#FF1493] transition-all"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
+        <div className="mb-8">
+          <div className="relative max-w-md">
+            <input 
+              type="text" 
+              placeholder="Pesquisar por nome ou WhatsApp..."
+              className="w-full px-6 py-4 rounded-2xl border border-gray-100 shadow-sm outline-none focus:ring-2 focus:ring-[#FF1493] transition-all font-bold text-sm"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+          </div>
         </div>
 
-        <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-[3rem] shadow-sm border border-gray-100 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-gray-50 bg-gray-50/50">
-                  <th className="px-8 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Cliente</th>
-                  <th className="px-8 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Contato</th>
-                  <th className="px-8 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Agendamentos</th>
-                  <th className="px-8 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Última Visita</th>
-                  <th className="px-8 py-4"></th>
+                  <th className="px-10 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Cliente</th>
+                  <th className="px-10 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Contato</th>
+                  <th className="px-10 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Agendamentos</th>
+                  <th className="px-10 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Última Visita</th>
+                  <th className="px-10 py-5"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {filteredClients.map(client => (
-                  <tr key={client.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-8 py-6">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-pink-100 text-[#FF1493] rounded-xl flex items-center justify-center font-bold">
+                {filteredClients.length > 0 ? filteredClients.map(client => (
+                  <tr key={client.id} className="hover:bg-gray-50/50 transition-colors group">
+                    <td className="px-10 py-8">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-12 h-12 bg-pink-50 text-[#FF1493] rounded-2xl flex items-center justify-center font-black text-lg group-hover:bg-[#FF1493] group-hover:text-white transition-all">
                           {client.name.charAt(0)}
                         </div>
-                        <span className="font-bold text-black">{client.name}</span>
+                        <span className="font-black text-black uppercase tracking-tight">{client.name}</span>
                       </div>
                     </td>
-                    <td className="px-8 py-6">
-                      <span className="text-gray-500 font-medium">{client.phone}</span>
+                    <td className="px-10 py-8">
+                      <span className="text-gray-500 font-bold text-sm">{client.phone}</span>
                     </td>
-                    <td className="px-8 py-6">
-                      <span className="px-3 py-1 bg-gray-100 rounded-full text-xs font-bold text-gray-600">
-                        {client.totalBookings} vezes
+                    <td className="px-10 py-8 text-center">
+                      <span className="px-4 py-1.5 bg-gray-100 rounded-full text-[10px] font-black text-gray-600 uppercase tracking-widest">
+                        {client.totalBookings} Visitas
                       </span>
                     </td>
-                    <td className="px-8 py-6">
-                      <span className="text-gray-400 text-sm">{new Date(client.lastVisit).toLocaleDateString()}</span>
+                    <td className="px-10 py-8">
+                      <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">
+                        {new Date(client.lastVisit).toLocaleDateString('pt-BR')}
+                      </span>
                     </td>
-                    <td className="px-8 py-6 text-right">
-                      <button className="text-[#FF1493] font-bold text-sm hover:underline">Ver Histórico</button>
+                    <td className="px-10 py-8 text-right">
+                      <button className="text-[#FF1493] font-black text-[10px] uppercase tracking-widest hover:underline decoration-2">Ver Histórico</button>
                     </td>
                   </tr>
-                ))}
+                )) : (
+                  <tr>
+                    <td colSpan={5} className="p-20 text-center text-gray-300 font-bold uppercase tracking-widest italic text-sm">Nenhum cliente encontrado 🔎</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
