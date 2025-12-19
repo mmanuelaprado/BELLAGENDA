@@ -6,9 +6,10 @@ import { View, Professional } from '../types.ts';
 interface MobileHeaderProps {
   user: Professional | null;
   navigate: (v: View) => void;
+  onLogout: () => void;
 }
 
-const MobileHeader: React.FC<MobileHeaderProps> = ({ user, navigate }) => {
+const MobileHeader: React.FC<MobileHeaderProps> = ({ user, navigate, onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -28,7 +29,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ user, navigate }) => {
             <span className="text-xl font-bold uppercase tracking-widest text-[#FF1493]">Menu</span>
             <button onClick={() => setIsOpen(false)} className="text-white text-2xl">✕</button>
           </div>
-          <nav className="flex-grow space-y-4 overflow-y-auto pb-10 custom-scrollbar">
+          <nav className="flex-grow space-y-4 overflow-y-auto pb-6 custom-scrollbar">
             {[
               { view: 'dashboard', label: 'Início', icon: Icons.Home },
               { view: 'agenda', label: 'Agenda', icon: Icons.Calendar },
@@ -48,10 +49,20 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ user, navigate }) => {
                 className="w-full flex items-center space-x-4 p-4 bg-white/5 rounded-2xl text-left"
               >
                 <item.icon />
-                <span className="font-bold">{item.label}</span>
+                <span className="font-bold text-sm">{item.label}</span>
               </button>
             ))}
           </nav>
+          
+          <div className="border-t border-white/10 pt-6 mt-2">
+            <button 
+              onClick={() => { onLogout(); setIsOpen(false); }}
+              className="w-full flex items-center space-x-4 p-4 text-red-400 hover:bg-white/5 rounded-2xl text-left transition-colors"
+            >
+              <Icons.Logout />
+              <span className="font-black text-[10px] uppercase tracking-widest">Sair da Conta</span>
+            </button>
+          </div>
         </div>
       )}
     </header>
