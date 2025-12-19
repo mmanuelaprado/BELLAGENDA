@@ -1,0 +1,7 @@
+{
+  "name": "BellaAgenda SaaS",
+  "description": "Sistema premium de agendamento online para profissionais da beleza, com interface moderna em rosa e preto.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
