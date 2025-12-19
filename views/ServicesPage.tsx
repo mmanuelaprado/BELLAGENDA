@@ -31,7 +31,6 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ user, services, onAdd, onTo
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
-      {/* Shared Sidebar Component simplified here */}
       <aside className="hidden md:flex flex-col w-64 bg-black text-white p-6 sticky top-0 h-screen">
         <div className="flex items-center space-x-2 mb-10">
           <div className="w-8 h-8 bg-pink-600 rounded-lg flex items-center justify-center">
@@ -48,8 +47,16 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ user, services, onAdd, onTo
             <Icons.Scissors />
             <span>Serviços</span>
           </button>
+          <button onClick={() => navigate('clients')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all">
+            <Icons.Users />
+            <span>Clientes</span>
+          </button>
+          <button onClick={() => navigate('reports')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all">
+            <Icons.Chart />
+            <span>Relatórios</span>
+          </button>
         </nav>
-        <button onClick={onLogout} className="flex items-center space-x-3 p-3 text-gray-400 hover:text-white transition-colors">
+        <button onClick={onLogout} className="flex items-center space-x-3 p-3 text-gray-400 hover:text-white transition-colors mt-auto">
           <Icons.Logout />
           <span>Sair</span>
         </button>
@@ -108,77 +115,18 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ user, services, onAdd, onTo
         </div>
       </main>
 
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-[2.5rem] w-full max-w-lg p-8 animate-fade-in-up">
-            <h2 className="text-2xl font-bold text-black mb-6">Novo Serviço</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Nome do Serviço</label>
-                <input 
-                  required 
-                  type="text" 
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-600 outline-none"
-                  placeholder="Ex: Manicure Gel"
-                  value={formData.name}
-                  onChange={e => setFormData({...formData, name: e.target.value})}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Descrição</label>
-                <textarea 
-                  rows={3}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-600 outline-none"
-                  placeholder="Descreva brevemente o serviço..."
-                  value={formData.description}
-                  onChange={e => setFormData({...formData, description: e.target.value})}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Duração (min)</label>
-                  <input 
-                    required 
-                    type="number" 
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-600 outline-none"
-                    value={formData.duration}
-                    onChange={e => setFormData({...formData, duration: parseInt(e.target.value)})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Preço (R$)</label>
-                  <input 
-                    required 
-                    type="number" 
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-600 outline-none"
-                    value={formData.price}
-                    onChange={e => setFormData({...formData, price: parseFloat(e.target.value)})}
-                  />
-                </div>
-              </div>
-              <div className="flex space-x-3 pt-4">
-                <button type="button" onClick={() => setShowModal(false)} className="flex-1 px-6 py-4 bg-gray-100 rounded-2xl font-bold text-gray-600 hover:bg-gray-200 transition-all">Cancelar</button>
-                <button type="submit" className="flex-1 px-6 py-4 bg-pink-600 rounded-2xl font-bold text-white hover:bg-pink-700 transition-all shadow-lg shadow-pink-100">Salvar Serviço</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Shared Mobile Navigation Component simplified here */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-3 flex justify-around items-center z-50">
         <button onClick={() => navigate('dashboard')} className="flex flex-col items-center space-y-1 text-gray-400">
           <Icons.Calendar />
-          <span className="text-[10px] font-bold">Agenda</span>
+          <span className="text-[10px] font-bold uppercase">Agenda</span>
         </button>
         <button onClick={() => navigate('services')} className="flex flex-col items-center space-y-1 text-pink-600">
           <Icons.Scissors />
-          <span className="text-[10px] font-bold">Serviços</span>
+          <span className="text-[10px] font-bold uppercase">Serviços</span>
         </button>
-        <button onClick={onLogout} className="flex flex-col items-center space-y-1 text-gray-400">
-          <Icons.Logout />
-          <span className="text-[10px] font-bold">Sair</span>
+        <button onClick={() => navigate('profile')} className="flex flex-col items-center space-y-1 text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span className="text-[10px] font-bold uppercase">Perfil</span>
         </button>
       </nav>
     </div>

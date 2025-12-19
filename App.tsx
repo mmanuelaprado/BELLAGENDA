@@ -8,7 +8,7 @@ import ServicesPage from './views/ServicesPage';
 import ProfilePage from './views/ProfilePage';
 import BookingPage from './views/BookingPage';
 import ClientsPage from './views/ClientsPage';
-import MarketingPage from './views/MarketingPage';
+import ReportsPage from './views/ReportsPage';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('landing');
@@ -21,11 +21,13 @@ const App: React.FC = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([
     { id: '101', serviceId: '1', clientName: 'Ana Silva', clientPhone: '(11) 98765-4321', date: new Date().toISOString(), status: 'confirmed' },
     { id: '102', serviceId: '2', clientName: 'Beatriz Costa', clientPhone: '(11) 99988-7766', date: new Date(Date.now() + 3600000).toISOString(), status: 'pending' },
+    { id: '103', serviceId: '1', clientName: 'Carla Dias', clientPhone: '(11) 95555-4444', date: new Date(Date.now() - 86400000).toISOString(), status: 'confirmed' },
   ]);
   
   const [clients, setClients] = useState<Client[]>([
     { id: 'c1', name: 'Ana Silva', phone: '(11) 98765-4321', totalBookings: 5, lastVisit: new Date().toISOString() },
     { id: 'c2', name: 'Beatriz Costa', phone: '(11) 99988-7766', totalBookings: 2, lastVisit: new Date().toISOString() },
+    { id: 'c3', name: 'Carla Dias', phone: '(11) 95555-4444', totalBookings: 1, lastVisit: new Date(Date.now() - 86400000).toISOString() },
   ]);
 
   useEffect(() => {
@@ -86,7 +88,7 @@ const App: React.FC = () => {
   const renderView = () => {
     switch (currentView) {
       case 'landing':
-        return <LandingPage onStart={() => setCurrentView('signup')} onLogin={() => setCurrentView('login')} />;
+        return <LandingPage onStart={() => setCurrentView('signup')} onLogin={() => setCurrentView('login')} onDemo={() => setCurrentView('booking')} />;
       case 'login':
         return <AuthView type="login" onAuth={handleLogin} onToggle={() => setCurrentView('signup')} />;
       case 'signup':
@@ -123,10 +125,11 @@ const App: React.FC = () => {
             navigate={setCurrentView}
           />
         );
-      case 'marketing':
+      case 'reports':
         return (
-          <MarketingPage 
+          <ReportsPage 
             user={user}
+            appointments={appointments}
             services={services}
             onLogout={handleLogout}
             navigate={setCurrentView}
@@ -147,11 +150,11 @@ const App: React.FC = () => {
             professional={user || { name: 'Dra. Julia', businessName: 'Julia Beauty', email: '', slug: 'julia-beauty' }} 
             services={services.filter(s => s.active)} 
             onComplete={addAppointment} 
-            onHome={() => setCurrentView('landing')} 
+            onHome={() => user ? setCurrentView('dashboard') : setCurrentView('landing')} 
           />
         );
       default:
-        return <LandingPage onStart={() => setCurrentView('signup')} onLogin={() => setCurrentView('login')} />;
+        return <LandingPage onStart={() => setCurrentView('signup')} onLogin={() => setCurrentView('login')} onDemo={() => setCurrentView('booking')} />;
     }
   };
 

@@ -4,9 +4,10 @@ import React from 'react';
 interface LandingPageProps {
   onStart: () => void;
   onLogin: () => void;
+  onDemo: () => void;
 }
 
-const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
+const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin, onDemo }) => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navbar */}
@@ -36,8 +37,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
             <button onClick={onStart} className="w-full sm:w-auto bg-pink-600 text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-pink-700 transition-all shadow-xl shadow-pink-200 hover:-translate-y-1">
               Criar minha agenda online
             </button>
-            <button className="w-full sm:w-auto bg-gray-100 text-black px-10 py-4 rounded-full text-lg font-bold hover:bg-gray-200 transition-all">
-              Ver demonstração
+            <button onClick={onDemo} className="w-full sm:w-auto bg-gray-100 text-black px-10 py-4 rounded-full text-lg font-bold hover:bg-gray-200 transition-all">
+              Ver demonstração do cliente
             </button>
           </div>
         </div>

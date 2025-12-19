@@ -40,9 +40,9 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ user, clients, onLogout, navi
             <Icons.Users />
             <span>Clientes</span>
           </button>
-          <button onClick={() => navigate('marketing')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all">
-            <Icons.Sparkles />
-            <span>Marketing AI</span>
+          <button onClick={() => navigate('reports')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all">
+            <Icons.Chart />
+            <span>Relatórios</span>
           </button>
         </nav>
         <button onClick={onLogout} className="flex items-center space-x-3 p-3 text-gray-400 hover:text-white transition-colors mt-auto">
@@ -109,15 +109,9 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ user, clients, onLogout, navi
               </tbody>
             </table>
           </div>
-          {filteredClients.length === 0 && (
-            <div className="p-20 text-center text-gray-400">
-              Nenhum cliente encontrado.
-            </div>
-          )}
         </div>
       </main>
 
-      {/* Shared Mobile Nav */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-4 flex justify-between items-center z-50 shadow-2xl rounded-t-3xl">
         <button onClick={() => navigate('dashboard')} className="flex flex-col items-center space-y-1 text-gray-300">
           <Icons.Calendar />
@@ -131,9 +125,9 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ user, clients, onLogout, navi
           <Icons.Users />
           <span className="text-[10px] font-black uppercase">Clientes</span>
         </button>
-        <button onClick={() => navigate('marketing')} className="flex flex-col items-center space-y-1 text-gray-300">
-          <Icons.Sparkles />
-          <span className="text-[10px] font-black uppercase">AI</span>
+        <button onClick={() => navigate('reports')} className="flex flex-col items-center space-y-1 text-gray-300">
+          <Icons.Chart />
+          <span className="text-[10px] font-black uppercase">Vendas</span>
         </button>
         <button onClick={() => navigate('profile')} className="flex flex-col items-center space-y-1 text-gray-300">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>

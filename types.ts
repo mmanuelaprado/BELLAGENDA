@@ -34,4 +34,4 @@ export interface Professional {
   instagram?: string;
 }
 
-export type View = 'landing' | 'login' | 'signup' | 'dashboard' | 'services' | 'profile' | 'booking' | 'clients' | 'marketing';
+export type View = 'landing' | 'login' | 'signup' | 'dashboard' | 'services' | 'profile' | 'booking' | 'clients' | 'reports';

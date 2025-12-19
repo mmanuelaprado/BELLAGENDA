@@ -49,12 +49,20 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onUpdate, onLogout, nav
             <Icons.Scissors />
             <span>Serviços</span>
           </button>
-          <button onClick={() => navigate('profile')} className="w-full flex items-center space-x-3 p-3 bg-pink-600 rounded-xl font-medium transition-all">
+          <button onClick={() => navigate('clients')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all">
             <Icons.Users />
+            <span>Clientes</span>
+          </button>
+          <button onClick={() => navigate('reports')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all">
+            <Icons.Chart />
+            <span>Relatórios</span>
+          </button>
+          <button onClick={() => navigate('profile')} className="w-full flex items-center space-x-3 p-3 bg-pink-600 rounded-xl font-medium transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             <span>Meu Perfil</span>
           </button>
         </nav>
-        <button onClick={onLogout} className="flex items-center space-x-3 p-3 text-gray-400 hover:text-white transition-colors">
+        <button onClick={onLogout} className="flex items-center space-x-3 p-3 text-gray-400 hover:text-white transition-colors mt-auto">
           <Icons.Logout />
           <span>Sair</span>
         </button>
@@ -86,7 +94,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onUpdate, onLogout, nav
                 <label className="text-sm font-semibold text-gray-700">E-mail</label>
                 <input 
                   type="email" 
-                  className="w-full px-4 py-3 rounded-xl border border-gray-100 focus:ring-2 focus:ring-pink-600 outline-none"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-600 outline-none"
                   value={formData.email}
                   onChange={e => setFormData({...formData, email: e.target.value})}
                 />
@@ -151,12 +159,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onUpdate, onLogout, nav
                 saveStatus === 'saved' ? 'bg-green-600 text-white' : 'bg-pink-600 text-white hover:bg-pink-700 shadow-pink-100'
               }`}
             >
-              {saveStatus === 'saving' && (
-                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-              )}
               <span>
                 {saveStatus === 'idle' && 'Salvar Alterações'}
                 {saveStatus === 'saving' && 'Salvando...'}
@@ -167,23 +169,18 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onUpdate, onLogout, nav
         </form>
       </main>
 
-      {/* Mobile Nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-3 flex justify-around items-center z-50">
-        <button onClick={() => navigate('dashboard')} className="flex flex-col items-center space-y-1 text-gray-400">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-4 flex justify-between items-center z-50 shadow-2xl rounded-t-3xl">
+        <button onClick={() => navigate('dashboard')} className="flex flex-col items-center space-y-1 text-gray-300">
           <Icons.Calendar />
-          <span className="text-[10px] font-bold">Agenda</span>
+          <span className="text-[10px] font-black uppercase">Início</span>
         </button>
         <button onClick={() => navigate('services')} className="flex flex-col items-center space-y-1 text-gray-400">
           <Icons.Scissors />
-          <span className="text-[10px] font-bold">Serviços</span>
+          <span className="text-[10px] font-black uppercase">Serviços</span>
         </button>
         <button onClick={() => navigate('profile')} className="flex flex-col items-center space-y-1 text-pink-600">
-          <Icons.Users />
-          <span className="text-[10px] font-bold">Perfil</span>
-        </button>
-        <button onClick={onLogout} className="flex flex-col items-center space-y-1 text-gray-400">
-          <Icons.Logout />
-          <span className="text-[10px] font-bold">Sair</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span className="text-[10px] font-black uppercase">Perfil</span>
         </button>
       </nav>
     </div>
