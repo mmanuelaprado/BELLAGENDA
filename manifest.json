@@ -10,16 +10,22 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/10691/10691830.png",
+      "src": "https://i.ibb.co/v4m8YqX/prado-icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/10691/10691830.png",
+      "src": "https://i.ibb.co/v4m8YqX/prado-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "https://i.ibb.co/Vv0f7vG/prado-icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ],
   "categories": ["business", "beauty", "productivity"],
@@ -27,12 +33,12 @@
     {
       "name": "Ver Agenda",
       "url": "/agenda",
-      "icons": [{ "src": "https://cdn-icons-png.flaticon.com/512/10691/10691830.png", "sizes": "192x192" }]
+      "icons": [{ "src": "https://i.ibb.co/v4m8YqX/prado-icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Novo Agendamento",
       "url": "/booking",
-      "icons": [{ "src": "https://cdn-icons-png.flaticon.com/512/10691/10691830.png", "sizes": "192x192" }]
+      "icons": [{ "src": "https://i.ibb.co/v4m8YqX/prado-icon-192.png", "sizes": "192x192" }]
     }
   ]
 }
