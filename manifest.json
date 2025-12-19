@@ -10,33 +10,33 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://i.ibb.co/3Y8p2v7/prado-circle-72.png",
+      "src": "https://i.ibb.co/3Y8p2v7/prado-circle-512.png",
       "sizes": "72x72",
       "type": "image/png"
     },
     {
-      "src": "https://i.ibb.co/3Y8p2v7/prado-circle-96.png",
+      "src": "https://i.ibb.co/3Y8p2v7/prado-circle-512.png",
       "sizes": "96x96",
       "type": "image/png"
     },
     {
-      "src": "https://i.ibb.co/3Y8p2v7/prado-circle-128.png",
+      "src": "https://i.ibb.co/3Y8p2v7/prado-circle-512.png",
       "sizes": "128x128",
       "type": "image/png"
     },
     {
-      "src": "https://i.ibb.co/3Y8p2v7/prado-circle-144.png",
+      "src": "https://i.ibb.co/3Y8p2v7/prado-circle-512.png",
       "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "https://i.ibb.co/3Y8p2v7/prado-circle-192.png",
+      "src": "https://i.ibb.co/3Y8p2v7/prado-circle-512.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://i.ibb.co/3Y8p2v7/prado-circle-192.png",
+      "src": "https://i.ibb.co/3Y8p2v7/prado-circle-512.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
@@ -53,12 +53,12 @@
     {
       "name": "Ver Agenda",
       "url": "/agenda",
-      "icons": [{ "src": "https://i.ibb.co/3Y8p2v7/prado-circle-192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "https://i.ibb.co/3Y8p2v7/prado-circle-512.png", "sizes": "192x192" }]
     },
     {
       "name": "Novo Agendamento",
       "url": "/booking",
-      "icons": [{ "src": "https://i.ibb.co/3Y8p2v7/prado-circle-192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "https://i.ibb.co/3Y8p2v7/prado-circle-512.png", "sizes": "192x192" }]
     }
   ]
 }
