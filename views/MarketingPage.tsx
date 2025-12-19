@@ -64,21 +64,43 @@ const MarketingPage: React.FC<MarketingPageProps> = ({ user, services, onLogout,
     }
   };
 
+  const SidebarItem = ({ view, icon: Icon, label }: { view: View; icon: any; label: string }) => (
+    <button 
+      onClick={() => navigate(view)} 
+      className={`w-full flex items-center space-x-3 p-3 rounded-xl font-medium transition-all ${
+        view === 'marketing' ? 'bg-[#FF1493] text-white shadow-lg shadow-pink-900/20' : 'text-gray-400 hover:bg-white/5'
+      }`}
+    >
+      <Icon />
+      <span className="text-sm">{label}</span>
+    </button>
+  );
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
-      <aside className="hidden md:flex flex-col w-64 bg-black text-white p-6 sticky top-0 h-screen">
-        <div className="flex items-center space-x-2 mb-10">
-          <div className="w-8 h-8 bg-pink-600 rounded-lg flex items-center justify-center"><span className="text-white font-bold">B</span></div>
-          <span className="text-xl font-bold">BellaAgenda</span>
+      <aside className="hidden md:flex flex-col w-72 bg-black text-white p-6 sticky top-0 h-screen overflow-y-auto custom-scrollbar">
+        <div className="flex items-center space-x-2 mb-10 px-2">
+          <div className="w-8 h-8 bg-[#FF1493] rounded-lg flex items-center justify-center font-bold">P</div>
+          <span className="text-xl font-bold">Pradoagenda</span>
         </div>
-        <nav className="flex-grow space-y-2">
-          <button onClick={() => navigate('dashboard')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all"><Icons.Calendar /><span>Agenda</span></button>
-          <button onClick={() => navigate('services')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all"><Icons.Scissors /><span>Serviços</span></button>
-          <button onClick={() => navigate('clients')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all"><Icons.Users /><span>Clientes</span></button>
-          <button onClick={() => navigate('marketing')} className="w-full flex items-center space-x-3 p-3 bg-pink-600 rounded-xl font-medium transition-all"><Icons.Sparkles /><span>Marketing AI</span></button>
-          <button onClick={() => navigate('reports')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all"><Icons.Chart /><span>Relatórios</span></button>
+        <nav className="flex-grow space-y-1">
+          <SidebarItem view="dashboard" icon={Icons.Home} label="Início" />
+          <SidebarItem view="agenda" icon={Icons.Calendar} label="Agenda" />
+          <SidebarItem view="clients" icon={Icons.Users} label="Clientes" />
+          <SidebarItem view="services" icon={Icons.Scissors} label="Serviços" />
+          <SidebarItem view="marketing" icon={Icons.Sparkles} label="Marketing AI" />
+          <SidebarItem view="professionals" icon={Icons.Users} label="Profissionais" />
+          <SidebarItem view="finance" icon={Icons.Finance} label="Financeiro" />
+          <SidebarItem view="recurring" icon={Icons.Repeat} label="Agendamento recorrente" />
+          <SidebarItem view="inactivation" icon={Icons.Ban} label="Inativação de horários" />
+          <SidebarItem view="company" icon={Icons.Building} label="Minha empresa" />
+          <SidebarItem view="settings" icon={Icons.Settings} label="Configurações" />
+          <SidebarItem view="apps" icon={Icons.Smartphone} label="Baixar Apps" />
         </nav>
-        <button onClick={onLogout} className="flex items-center space-x-3 p-3 text-gray-400 hover:text-white transition-colors mt-auto"><Icons.Logout /><span>Sair</span></button>
+        <button onClick={onLogout} className="flex items-center space-x-3 p-3 text-gray-400 hover:text-white transition-colors mt-8">
+          <Icons.Logout />
+          <span>Sair</span>
+        </button>
       </aside>
 
       <main className="flex-grow p-4 md:p-10 max-w-7xl mx-auto w-full pb-24 md:pb-10">
@@ -93,7 +115,7 @@ const MarketingPage: React.FC<MarketingPageProps> = ({ user, services, onLogout,
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Serviço</label>
-                <select className="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-pink-600 bg-gray-50 font-medium" value={selectedServiceId} onChange={e => setSelectedServiceId(e.target.value)}>
+                <select className="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-[#FF1493] bg-gray-50 font-medium" value={selectedServiceId} onChange={e => setSelectedServiceId(e.target.value)}>
                   <option value="">Selecione...</option>
                   {services.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
                 </select>
@@ -106,7 +128,7 @@ const MarketingPage: React.FC<MarketingPageProps> = ({ user, services, onLogout,
                 </div>
               </div>
               <div className="space-y-3 pt-2">
-                <button onClick={generatePost} disabled={isGenerating || !selectedServiceId} className="w-full bg-pink-600 text-white py-4 rounded-2xl font-bold hover:bg-pink-700 transition-all shadow-lg disabled:opacity-50 flex items-center justify-center space-x-2">
+                <button onClick={generatePost} disabled={isGenerating || !selectedServiceId} className="w-full bg-[#FF1493] text-white py-4 rounded-2xl font-bold hover:bg-pink-700 transition-all shadow-lg disabled:opacity-50 flex items-center justify-center space-x-2">
                   {isGenerating ? <div className="animate-spin rounded-full h-5 w-5 border-2 border-white/20 border-t-white"></div> : <Icons.Brain />}
                   <span>Gerar Legenda</span>
                 </button>
@@ -143,13 +165,6 @@ const MarketingPage: React.FC<MarketingPageProps> = ({ user, services, onLogout,
           </div>
         </div>
       </main>
-
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-4 flex justify-between items-center z-50 shadow-2xl rounded-t-3xl">
-        <button onClick={() => navigate('dashboard')} className="flex flex-col items-center space-y-1 text-gray-300"><Icons.Calendar /><span className="text-[10px] font-black uppercase tracking-tighter">Agenda</span></button>
-        <button onClick={() => navigate('marketing')} className="flex flex-col items-center space-y-1 text-pink-600"><Icons.Sparkles /><span className="text-[10px] font-black uppercase tracking-tighter">AI</span></button>
-        <button onClick={() => navigate('reports')} className="flex flex-col items-center space-y-1 text-gray-300"><Icons.Chart /><span className="text-[10px] font-black uppercase tracking-tighter">Vendas</span></button>
-        <button onClick={() => navigate('profile')} className="flex flex-col items-center space-y-1 text-gray-300"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span className="text-[10px] font-black uppercase tracking-tighter">Perfil</span></button>
-      </nav>
     </div>
   );
 };

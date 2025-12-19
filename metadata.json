@@ -1,6 +1,6 @@
 {
-  "name": "BellaAgenda SaaS",
-  "description": "Sistema premium de agendamento online para profissionais da beleza, com interface moderna em rosa e preto.",
+  "name": "Prado Agenda SaaS",
+  "description": "Sistema profissional de agendamento com gestão de expediente, intervalos e profissionais.",
   "requestFramePermissions": [
     "camera"
   ]

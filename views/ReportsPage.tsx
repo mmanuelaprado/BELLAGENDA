@@ -23,20 +23,43 @@ const ReportsPage: React.FC<ReportsPageProps> = ({ user, appointments, services,
     return { name: s.name, count, total: count * s.price };
   }).sort((a, b) => b.total - a.total);
 
+  const SidebarItem = ({ view, icon: Icon, label }: { view: View; icon: any; label: string }) => (
+    <button 
+      onClick={() => navigate(view)} 
+      className={`w-full flex items-center space-x-3 p-3 rounded-xl font-medium transition-all ${
+        view === 'finance' ? 'bg-[#FF1493] text-white shadow-lg shadow-pink-900/20' : 'text-gray-400 hover:bg-white/5'
+      }`}
+    >
+      <Icon />
+      <span className="text-sm">{label}</span>
+    </button>
+  );
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
-      <aside className="hidden md:flex flex-col w-64 bg-black text-white p-6 sticky top-0 h-screen">
-        <div className="flex items-center space-x-2 mb-10">
-          <div className="w-8 h-8 bg-pink-600 rounded-lg flex items-center justify-center"><span className="text-white font-bold">B</span></div>
-          <span className="text-xl font-bold">BellaAgenda</span>
+      <aside className="hidden md:flex flex-col w-72 bg-black text-white p-6 sticky top-0 h-screen overflow-y-auto custom-scrollbar">
+        <div className="flex items-center space-x-2 mb-10 px-2">
+          <div className="w-8 h-8 bg-[#FF1493] rounded-lg flex items-center justify-center font-bold">P</div>
+          <span className="text-xl font-bold">Pradoagenda</span>
         </div>
-        <nav className="flex-grow space-y-2">
-          <button onClick={() => navigate('dashboard')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all"><Icons.Calendar /><span>Agenda</span></button>
-          <button onClick={() => navigate('services')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all"><Icons.Scissors /><span>Serviços</span></button>
-          <button onClick={() => navigate('clients')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all"><Icons.Users /><span>Clientes</span></button>
-          <button onClick={() => navigate('reports')} className="w-full flex items-center space-x-3 p-3 bg-pink-600 rounded-xl font-medium transition-all"><Icons.Chart /><span>Relatórios</span></button>
+        <nav className="flex-grow space-y-1">
+          <SidebarItem view="dashboard" icon={Icons.Home} label="Início" />
+          <SidebarItem view="agenda" icon={Icons.Calendar} label="Agenda" />
+          <SidebarItem view="clients" icon={Icons.Users} label="Clientes" />
+          <SidebarItem view="services" icon={Icons.Scissors} label="Serviços" />
+          <SidebarItem view="marketing" icon={Icons.Sparkles} label="Marketing AI" />
+          <SidebarItem view="professionals" icon={Icons.Users} label="Profissionais" />
+          <SidebarItem view="finance" icon={Icons.Finance} label="Financeiro" />
+          <SidebarItem view="recurring" icon={Icons.Repeat} label="Agendamento recorrente" />
+          <SidebarItem view="inactivation" icon={Icons.Ban} label="Inativação de horários" />
+          <SidebarItem view="company" icon={Icons.Building} label="Minha empresa" />
+          <SidebarItem view="settings" icon={Icons.Settings} label="Configurações" />
+          <SidebarItem view="apps" icon={Icons.Smartphone} label="Baixar Apps" />
         </nav>
-        <button onClick={onLogout} className="flex items-center space-x-3 p-3 text-gray-400 hover:text-white transition-colors mt-auto"><Icons.Logout /><span>Sair</span></button>
+        <button onClick={onLogout} className="flex items-center space-x-3 p-3 text-gray-400 hover:text-white transition-colors mt-8">
+          <Icons.Logout />
+          <span>Sair</span>
+        </button>
       </aside>
 
       <main className="flex-grow p-4 md:p-10 max-w-7xl mx-auto w-full pb-24 md:pb-10">
@@ -54,7 +77,7 @@ const ReportsPage: React.FC<ReportsPageProps> = ({ user, appointments, services,
           <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
             <p className="text-gray-400 text-xs font-bold uppercase mb-2">Atendimentos</p>
             <h3 className="text-3xl font-bold text-black">{confirmed.length}</h3>
-            <p className="text-pink-500 text-sm mt-2 font-bold">Ticket Médio: R$ {confirmed.length > 0 ? (revenue / confirmed.length).toFixed(0) : 0}</p>
+            <p className="text-[#FF1493] text-sm mt-2 font-bold">Ticket Médio: R$ {confirmed.length > 0 ? (revenue / confirmed.length).toFixed(0) : 0}</p>
           </div>
           <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
             <p className="text-gray-400 text-xs font-bold uppercase mb-2">Novos Clientes</p>
@@ -63,10 +86,10 @@ const ReportsPage: React.FC<ReportsPageProps> = ({ user, appointments, services,
               {[1,2,3,4].map(i => <div key={i} className="w-8 h-8 rounded-full bg-pink-100 border-2 border-white"></div>)}
             </div>
           </div>
-          <div className="bg-pink-600 p-8 rounded-[2rem] shadow-xl shadow-pink-100 text-white">
-            <p className="text-pink-200 text-xs font-bold uppercase mb-2">Lucro Projetado</p>
+          <div className="bg-[#FF1493] p-8 rounded-[2rem] shadow-xl shadow-pink-100 text-white">
+            <p className="text-pink-100 text-xs font-bold uppercase mb-2">Lucro Projetado</p>
             <h3 className="text-3xl font-bold">R$ {(revenue * 0.85).toFixed(0)}</h3>
-            <p className="text-pink-200 text-sm mt-2 italic">Estimativa pós-custos</p>
+            <p className="text-pink-100 text-sm mt-2 italic">Estimativa pós-custos</p>
           </div>
         </div>
 
@@ -78,10 +101,10 @@ const ReportsPage: React.FC<ReportsPageProps> = ({ user, appointments, services,
                 <div key={i} className="space-y-2">
                   <div className="flex justify-between items-center text-sm font-bold">
                     <span className="text-black">{stat.name}</span>
-                    <span className="text-pink-600">R$ {stat.total}</span>
+                    <span className="text-[#FF1493]">R$ {stat.total}</span>
                   </div>
                   <div className="w-full h-3 bg-gray-50 rounded-full overflow-hidden">
-                    <div className="h-full bg-pink-600 rounded-full" style={{ width: `${(stat.total / revenue) * 100}%` }}></div>
+                    <div className="h-full bg-[#FF1493] rounded-full" style={{ width: `${(stat.total / revenue) * 100}%` }}></div>
                   </div>
                   <p className="text-xs text-gray-400">{stat.count} atendimentos concluídos</p>
                 </div>
@@ -90,12 +113,6 @@ const ReportsPage: React.FC<ReportsPageProps> = ({ user, appointments, services,
           </div>
         </div>
       </main>
-
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-4 flex justify-between items-center z-50 shadow-2xl rounded-t-3xl">
-        <button onClick={() => navigate('dashboard')} className="flex flex-col items-center space-y-1 text-gray-300"><Icons.Calendar /><span className="text-[10px] font-black uppercase">Início</span></button>
-        <button onClick={() => navigate('reports')} className="flex flex-col items-center space-y-1 text-pink-600"><Icons.Chart /><span className="text-[10px] font-black uppercase">Vendas</span></button>
-        <button onClick={() => navigate('profile')} className="flex flex-col items-center space-y-1 text-gray-300"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span className="text-[10px] font-black uppercase">Perfil</span></button>
-      </nav>
     </div>
   );
 };

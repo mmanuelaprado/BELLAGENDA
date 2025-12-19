@@ -50,14 +50,14 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, onCom
           </p>
           <div className="bg-gray-50 p-6 rounded-3xl text-left mb-8">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="text-pink-600"><Icons.Calendar /></div>
+              <div className="text-[#FF1493]"><Icons.Calendar /></div>
               <div>
                 <p className="text-xs text-gray-400 uppercase font-bold">Data e Hora</p>
                 <p className="font-bold text-black">{selectedDate} às {selectedTime}</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <div className="text-pink-600"><Icons.Users /></div>
+              <div className="text-[#FF1493]"><Icons.Users /></div>
               <div>
                 <p className="text-xs text-gray-400 uppercase font-bold">Profissional</p>
                 <p className="font-bold text-black">{professional.businessName}</p>
@@ -89,7 +89,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, onCom
         <div className="bg-white rounded-[2.5rem] shadow-xl border border-gray-100 overflow-hidden">
           {/* Progress Bar */}
           <div className="flex h-1.5 bg-gray-100">
-            <div className={`h-full bg-pink-600 transition-all duration-500`} style={{ width: `${(step / 3) * 100}%` }}></div>
+            <div className={`h-full bg-[#FF1493] transition-all duration-500`} style={{ width: `${(step / 3) * 100}%` }}></div>
           </div>
 
           <div className="p-8">
@@ -102,14 +102,14 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, onCom
                       key={s.id}
                       onClick={() => { setSelectedService(s); setStep(2); }}
                       className={`w-full text-left p-6 rounded-3xl border transition-all flex justify-between items-center group ${
-                        selectedService?.id === s.id ? 'border-pink-600 bg-pink-50' : 'border-gray-100 hover:border-pink-200 hover:bg-gray-50'
+                        selectedService?.id === s.id ? 'border-[#FF1493] bg-pink-50' : 'border-gray-100 hover:border-pink-200 hover:bg-gray-50'
                       }`}
                     >
                       <div>
-                        <h4 className="font-bold text-black group-hover:text-pink-600 transition-colors">{s.name}</h4>
+                        <h4 className="font-bold text-black group-hover:text-[#FF1493] transition-colors">{s.name}</h4>
                         <p className="text-sm text-gray-500">{s.duration} min • R$ {s.price}</p>
                       </div>
-                      <div className="text-gray-300 group-hover:text-pink-600">
+                      <div className="text-gray-300 group-hover:text-[#FF1493]">
                         <Icons.Plus />
                       </div>
                     </button>
@@ -137,7 +137,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, onCom
                           key={date}
                           onClick={() => setSelectedDate(date)}
                           className={`flex-shrink-0 w-16 h-20 rounded-2xl flex flex-col items-center justify-center transition-all ${
-                            selectedDate === date ? 'bg-pink-600 text-white shadow-lg' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
+                            selectedDate === date ? 'bg-[#FF1493] text-white shadow-lg' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
                           }`}
                         >
                           <span className="text-[10px] font-bold uppercase">{dayName}</span>
@@ -170,7 +170,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, onCom
                 <button 
                   disabled={!selectedDate || !selectedTime}
                   onClick={() => setStep(3)}
-                  className="w-full mt-10 bg-pink-600 text-white py-4 rounded-2xl font-bold text-lg hover:bg-pink-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-pink-100"
+                  className="w-full mt-10 bg-[#FF1493] text-white py-4 rounded-2xl font-bold text-lg hover:bg-pink-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-pink-100"
                 >
                   Continuar
                 </button>
@@ -189,7 +189,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, onCom
                     <input 
                       required 
                       type="text" 
-                      className="w-full px-6 py-4 rounded-2xl border border-gray-100 focus:ring-2 focus:ring-pink-600 outline-none bg-gray-50"
+                      className="w-full px-6 py-4 rounded-2xl border border-gray-100 focus:ring-2 focus:ring-[#FF1493] outline-none bg-gray-50"
                       placeholder="Como podemos te chamar?"
                       value={clientInfo.name}
                       onChange={e => setClientInfo({...clientInfo, name: e.target.value})}
@@ -200,7 +200,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, onCom
                     <input 
                       required 
                       type="tel" 
-                      className="w-full px-6 py-4 rounded-2xl border border-gray-100 focus:ring-2 focus:ring-pink-600 outline-none bg-gray-50"
+                      className="w-full px-6 py-4 rounded-2xl border border-gray-100 focus:ring-2 focus:ring-[#FF1493] outline-none bg-gray-50"
                       placeholder="(00) 00000-0000"
                       value={clientInfo.phone}
                       onChange={e => setClientInfo({...clientInfo, phone: e.target.value})}
@@ -209,7 +209,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, onCom
                 </div>
 
                 <div className="p-6 bg-pink-50 rounded-[2rem] mb-8">
-                  <h4 className="text-sm font-bold text-pink-600 uppercase mb-4 tracking-wider">Resumo do Agendamento</h4>
+                  <h4 className="text-sm font-bold text-[#FF1493] uppercase mb-4 tracking-wider">Resumo do Agendamento</h4>
                   <div className="space-y-2">
                     <p className="text-black font-bold text-lg">{selectedService?.name}</p>
                     <p className="text-gray-500 text-sm">🗓️ {selectedDate} às {selectedTime}</p>
@@ -221,7 +221,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, onCom
                 <button 
                   disabled={!clientInfo.name || !clientInfo.phone}
                   onClick={handleConfirm}
-                  className="w-full bg-pink-600 text-white py-4 rounded-2xl font-bold text-lg hover:bg-pink-700 transition-all disabled:opacity-50 shadow-xl shadow-pink-200"
+                  className="w-full bg-[#FF1493] text-white py-4 rounded-2xl font-bold text-lg hover:bg-pink-700 transition-all disabled:opacity-50 shadow-xl shadow-pink-200"
                 >
                   Confirmar Agendamento
                 </button>

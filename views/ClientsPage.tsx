@@ -13,6 +13,18 @@ interface ClientsPageProps {
 const ClientsPage: React.FC<ClientsPageProps> = ({ user, clients, onLogout, navigate }) => {
   const [search, setSearch] = useState('');
 
+  const SidebarItem = ({ view, icon: Icon, label }: { view: View; icon: any; label: string }) => (
+    <button 
+      onClick={() => navigate(view)} 
+      className={`w-full flex items-center space-x-3 p-3 rounded-xl font-medium transition-all ${
+        view === 'clients' ? 'bg-[#FF1493] text-white shadow-lg shadow-pink-900/20' : 'text-gray-400 hover:bg-white/5'
+      }`}
+    >
+      <Icon />
+      <span className="text-sm">{label}</span>
+    </button>
+  );
+
   const filteredClients = clients.filter(c => 
     c.name.toLowerCase().includes(search.toLowerCase()) || 
     c.phone.includes(search)
@@ -20,32 +32,26 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ user, clients, onLogout, navi
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
-      <aside className="hidden md:flex flex-col w-64 bg-black text-white p-6 sticky top-0 h-screen">
-        <div className="flex items-center space-x-2 mb-10">
-          <div className="w-8 h-8 bg-pink-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold">B</span>
-          </div>
-          <span className="text-xl font-bold">BellaAgenda</span>
+      <aside className="hidden md:flex flex-col w-72 bg-black text-white p-6 sticky top-0 h-screen overflow-y-auto custom-scrollbar">
+        <div className="flex items-center space-x-2 mb-10 px-2">
+          <div className="w-8 h-8 bg-[#FF1493] rounded-lg flex items-center justify-center font-bold">P</div>
+          <span className="text-xl font-bold">Pradoagenda</span>
         </div>
-        <nav className="flex-grow space-y-2">
-          <button onClick={() => navigate('dashboard')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all">
-            <Icons.Calendar />
-            <span>Agenda</span>
-          </button>
-          <button onClick={() => navigate('services')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all">
-            <Icons.Scissors />
-            <span>Serviços</span>
-          </button>
-          <button onClick={() => navigate('clients')} className="w-full flex items-center space-x-3 p-3 bg-pink-600 rounded-xl font-medium transition-all">
-            <Icons.Users />
-            <span>Clientes</span>
-          </button>
-          <button onClick={() => navigate('reports')} className="w-full flex items-center space-x-3 p-3 text-gray-400 hover:bg-gray-900 rounded-xl font-medium transition-all">
-            <Icons.Chart />
-            <span>Relatórios</span>
-          </button>
+        <nav className="flex-grow space-y-1">
+          <SidebarItem view="dashboard" icon={Icons.Home} label="Início" />
+          <SidebarItem view="agenda" icon={Icons.Calendar} label="Agenda" />
+          <SidebarItem view="clients" icon={Icons.Users} label="Clientes" />
+          <SidebarItem view="services" icon={Icons.Scissors} label="Serviços" />
+          <SidebarItem view="marketing" icon={Icons.Sparkles} label="Marketing AI" />
+          <SidebarItem view="professionals" icon={Icons.Users} label="Profissionais" />
+          <SidebarItem view="finance" icon={Icons.Finance} label="Financeiro" />
+          <SidebarItem view="recurring" icon={Icons.Repeat} label="Agendamento recorrente" />
+          <SidebarItem view="inactivation" icon={Icons.Ban} label="Inativação de horários" />
+          <SidebarItem view="company" icon={Icons.Building} label="Minha empresa" />
+          <SidebarItem view="settings" icon={Icons.Settings} label="Configurações" />
+          <SidebarItem view="apps" icon={Icons.Smartphone} label="Baixar Apps" />
         </nav>
-        <button onClick={onLogout} className="flex items-center space-x-3 p-3 text-gray-400 hover:text-white transition-colors mt-auto">
+        <button onClick={onLogout} className="flex items-center space-x-3 p-3 text-gray-400 hover:text-white transition-colors mt-8">
           <Icons.Logout />
           <span>Sair</span>
         </button>
@@ -61,7 +67,7 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ user, clients, onLogout, navi
           <input 
             type="text" 
             placeholder="Pesquisar por nome ou WhatsApp..."
-            className="w-full md:max-w-md px-6 py-4 rounded-2xl border border-gray-100 shadow-sm outline-none focus:ring-2 focus:ring-pink-600 transition-all"
+            className="w-full md:max-w-md px-6 py-4 rounded-2xl border border-gray-100 shadow-sm outline-none focus:ring-2 focus:ring-[#FF1493] transition-all"
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
@@ -84,7 +90,7 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ user, clients, onLogout, navi
                   <tr key={client.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-8 py-6">
                       <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-pink-100 text-pink-600 rounded-xl flex items-center justify-center font-bold">
+                        <div className="w-10 h-10 bg-pink-100 text-[#FF1493] rounded-xl flex items-center justify-center font-bold">
                           {client.name.charAt(0)}
                         </div>
                         <span className="font-bold text-black">{client.name}</span>
@@ -102,7 +108,7 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ user, clients, onLogout, navi
                       <span className="text-gray-400 text-sm">{new Date(client.lastVisit).toLocaleDateString()}</span>
                     </td>
                     <td className="px-8 py-6 text-right">
-                      <button className="text-pink-600 font-bold text-sm hover:underline">Ver Histórico</button>
+                      <button className="text-[#FF1493] font-bold text-sm hover:underline">Ver Histórico</button>
                     </td>
                   </tr>
                 ))}
@@ -111,29 +117,6 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ user, clients, onLogout, navi
           </div>
         </div>
       </main>
-
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-4 flex justify-between items-center z-50 shadow-2xl rounded-t-3xl">
-        <button onClick={() => navigate('dashboard')} className="flex flex-col items-center space-y-1 text-gray-300">
-          <Icons.Calendar />
-          <span className="text-[10px] font-black uppercase">Início</span>
-        </button>
-        <button onClick={() => navigate('services')} className="flex flex-col items-center space-y-1 text-gray-300">
-          <Icons.Scissors />
-          <span className="text-[10px] font-black uppercase">Serviços</span>
-        </button>
-        <button onClick={() => navigate('clients')} className="flex flex-col items-center space-y-1 text-pink-600">
-          <Icons.Users />
-          <span className="text-[10px] font-black uppercase">Clientes</span>
-        </button>
-        <button onClick={() => navigate('reports')} className="flex flex-col items-center space-y-1 text-gray-300">
-          <Icons.Chart />
-          <span className="text-[10px] font-black uppercase">Vendas</span>
-        </button>
-        <button onClick={() => navigate('profile')} className="flex flex-col items-center space-y-1 text-gray-300">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <span className="text-[10px] font-black uppercase">Perfil</span>
-        </button>
-      </nav>
     </div>
   );
 };

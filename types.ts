@@ -34,4 +34,37 @@ export interface Professional {
   instagram?: string;
 }
 
-export type View = 'landing' | 'login' | 'signup' | 'dashboard' | 'services' | 'profile' | 'booking' | 'clients' | 'reports';
+export interface Shift {
+  start: string;
+  end: string;
+  active: boolean;
+}
+
+export interface DayExpediente {
+  day: string;
+  active: boolean;
+  shifts: [Shift, Shift];
+}
+
+export interface BusinessConfig {
+  interval: 15 | 30 | 45 | 60;
+  expediente: DayExpediente[];
+}
+
+export type View = 
+  | 'landing' 
+  | 'login' 
+  | 'signup' 
+  | 'dashboard' 
+  | 'agenda'
+  | 'clients' 
+  | 'services' 
+  | 'professionals'
+  | 'finance'
+  | 'recurring'
+  | 'inactivation'
+  | 'company'
+  | 'settings'
+  | 'apps'
+  | 'booking'
+  | 'marketing';
