@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Professional, Service, Appointment, Client, BusinessConfig } from './types.ts';
 import Sidebar from './Sidebar.tsx';
 import MobileHeader from './components/MobileHeader.tsx';
+import BottomNav from './components/BottomNav.tsx';
 import LandingPage from './views/LandingPage.tsx';
 import AuthView from './views/AuthView.tsx';
 import Dashboard from './views/Dashboard.tsx';
@@ -81,14 +82,13 @@ const App: React.FC = () => {
     setCurrentView('landing');
   };
 
-  // Função para salvar ou atualizar cliente no CRM
   const handleSaveToCRM = (name: string, phone: string, date: string) => {
     setClients(prev => {
       const exists = prev.find(c => c.phone === phone);
       if (exists) {
         return prev.map(c => c.phone === phone ? {
           ...c,
-          name, // Atualiza nome se mudou
+          name, 
           totalBookings: c.totalBookings + 1,
           lastVisit: date
         } : c);
@@ -163,14 +163,18 @@ const App: React.FC = () => {
     />
   );
 
+  const isFullAppView = ['landing', 'login', 'signup', 'booking'].includes(currentView);
+
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
-      <Sidebar activeView={currentView} navigate={(v: View) => setCurrentView(v)} onLogout={handleLogout} />
-      <div className="flex-grow flex flex-col">
-        <MobileHeader user={user} navigate={(v: View) => setCurrentView(v)} onLogout={handleLogout} />
-        <div className="flex-grow">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-50 overflow-x-hidden">
+      {!isFullAppView && <Sidebar activeView={currentView} navigate={(v: View) => setCurrentView(v)} onLogout={handleLogout} />}
+      <div className="flex-grow flex flex-col min-h-screen">
+        {/* Mobile Header reduzido apenas para logotipo/status em certas views se necessário */}
+        {/* Aqui optamos por deixar a view gerenciar seu próprio header interno para visual de app */}
+        <div className="flex-grow pb-20 md:pb-0">
           {renderCurrentView()}
         </div>
+        {!isFullAppView && <BottomNav activeView={currentView} navigate={(v: View) => setCurrentView(v)} />}
       </div>
     </div>
   );
