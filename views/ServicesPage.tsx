@@ -14,7 +14,15 @@ interface ServicesPageProps {
   navigate: (v: View) => void;
 }
 
-const ServicesPage: React.FC<ServicesPageProps> = ({ user, services, onAdd, onToggle, onDelete, onLogout, navigate }) => {
+const ServicesPage: React.FC<ServicesPageProps> = ({ 
+  user, 
+  services, 
+  onAdd, 
+  onToggle, 
+  onDelete, 
+  onLogout, 
+  navigate 
+}) => {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -35,20 +43,25 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ user, services, onAdd, onTo
       <Sidebar activeView="services" navigate={navigate} onLogout={onLogout} />
 
       <main className="flex-grow p-4 md:p-10 max-w-7xl mx-auto w-full pb-24 md:pb-10">
-        <button 
-          onClick={() => navigate('dashboard')}
-          className="flex items-center text-gray-400 hover:text-[#FF1493] mb-6 transition-colors font-black text-[10px] uppercase tracking-[0.2em] group"
-        >
-          <span className="mr-2 group-hover:-translate-x-1 transition-transform">
-            <Icons.ArrowLeft />
-          </span>
-          Voltar ao Painel
-        </button>
+        {/* Botão de Voltar Proeminente */}
+        <div className="mb-8">
+          <button 
+            onClick={() => navigate('dashboard')}
+            className="group flex items-center space-x-3 bg-white px-5 py-3 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all active:scale-95"
+          >
+            <div className="text-gray-400 group-hover:text-[#FF1493] transition-colors">
+              <Icons.ArrowLeft />
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 group-hover:text-black transition-colors">
+              Voltar ao Início
+            </span>
+          </button>
+        </div>
 
-        <header className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+        <header className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
           <div>
             <h1 className="text-3xl font-black text-black tracking-tight uppercase">Seus Serviços</h1>
-            <p className="text-gray-500 font-medium tracking-tight">Gerencie o que você oferece aos seus clientes.</p>
+            <p className="text-gray-500 font-medium tracking-tight">Gerencie o catálogo de procedimentos oferecidos aos seus clientes.</p>
           </div>
           <button 
             onClick={() => setShowModal(true)}
@@ -71,11 +84,17 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ user, services, onAdd, onTo
                     <button 
                       onClick={() => onDelete(service.id)}
                       className="p-2 text-gray-200 hover:text-red-500 transition-colors"
+                      title="Excluir serviço"
                     >
                       <Icons.Trash />
                     </button>
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input type="checkbox" checked={service.active} onChange={() => onToggle(service.id)} className="sr-only peer" />
+                      <input 
+                        type="checkbox" 
+                        checked={service.active} 
+                        onChange={() => onToggle(service.id)} 
+                        className="sr-only peer" 
+                      />
                       <div className="w-12 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#FF1493]"></div>
                     </label>
                   </div>
@@ -94,9 +113,22 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ user, services, onAdd, onTo
               </div>
             </div>
           ))}
+          
+          {services.length === 0 && (
+            <div className="xl:col-span-2 bg-white p-20 rounded-[3rem] border-2 border-dashed border-gray-100 text-center">
+              <p className="text-gray-300 font-black uppercase tracking-widest text-sm">Você ainda não possui serviços cadastrados.</p>
+              <button 
+                onClick={() => setShowModal(true)}
+                className="mt-4 text-[#FF1493] font-black text-xs uppercase tracking-widest hover:underline"
+              >
+                Cadastrar meu primeiro serviço
+              </button>
+            </div>
+          )}
         </div>
       </main>
 
+      {/* Modal de Cadastro */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white w-full max-w-md rounded-[3rem] p-10 shadow-2xl animate-fade-in-up">
@@ -107,23 +139,48 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ user, services, onAdd, onTo
              <form onSubmit={handleSubmit} className="space-y-6">
                <div>
                  <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Nome do Serviço</label>
-                 <input required type="text" className="w-full px-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:ring-2 focus:ring-[#FF1493] outline-none font-bold" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
+                 <input 
+                  required 
+                  type="text" 
+                  className="w-full px-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:ring-2 focus:ring-[#FF1493] outline-none font-bold" 
+                  value={formData.name} 
+                  onChange={e => setFormData({...formData, name: e.target.value})} 
+                 />
                </div>
                <div>
                  <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Descrição Curta</label>
-                 <textarea className="w-full px-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:ring-2 focus:ring-[#FF1493] outline-none font-bold" rows={2} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} />
+                 <textarea 
+                  className="w-full px-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:ring-2 focus:ring-[#FF1493] outline-none font-bold" 
+                  rows={2} 
+                  value={formData.description} 
+                  onChange={e => setFormData({...formData, description: e.target.value})} 
+                 />
                </div>
                <div className="grid grid-cols-2 gap-4">
                  <div>
                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Duração (min)</label>
-                   <input required type="number" className="w-full px-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:ring-2 focus:ring-[#FF1493] outline-none font-bold" value={formData.duration} onChange={e => setFormData({...formData, duration: Number(e.target.value)})} />
+                   <input 
+                    required 
+                    type="number" 
+                    className="w-full px-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:ring-2 focus:ring-[#FF1493] outline-none font-bold" 
+                    value={formData.duration} 
+                    onChange={e => setFormData({...formData, duration: Number(e.target.value)})} 
+                   />
                  </div>
                  <div>
                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Preço (R$)</label>
-                   <input required type="number" className="w-full px-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:ring-2 focus:ring-[#FF1493] outline-none font-bold" value={formData.price} onChange={e => setFormData({...formData, price: Number(e.target.value)})} />
+                   <input 
+                    required 
+                    type="number" 
+                    className="w-full px-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:ring-2 focus:ring-[#FF1493] outline-none font-bold" 
+                    value={formData.price} 
+                    onChange={e => setFormData({...formData, price: Number(e.target.value)})} 
+                   />
                  </div>
                </div>
-               <button className="w-full bg-[#FF1493] text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-pink-700 transition-all shadow-2xl shadow-pink-100 mt-4">Criar Serviço Agora</button>
+               <button className="w-full bg-[#FF1493] text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-pink-700 transition-all shadow-2xl shadow-pink-100 mt-4 active:scale-95">
+                 Criar Serviço Agora
+               </button>
              </form>
           </div>
         </div>
