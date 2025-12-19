@@ -49,9 +49,14 @@ const App: React.FC = () => {
   useEffect(() => {
     const savedUser = localStorage.getItem('prado_user');
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
-      if (currentView === 'landing' || currentView === 'login' || currentView === 'signup') {
-        setCurrentView('dashboard');
+      try {
+        const parsed = JSON.parse(savedUser);
+        setUser(parsed);
+        if (currentView === 'landing' || currentView === 'login' || currentView === 'signup') {
+          setCurrentView('dashboard');
+        }
+      } catch (e) {
+        localStorage.removeItem('prado_user');
       }
     }
   }, []);
@@ -68,11 +73,7 @@ const App: React.FC = () => {
     setCurrentView('landing');
   };
 
-  // Views que não mostram Sidebar (Públicas ou Auth)
-  const isPublicView = ['landing', 'login', 'signup', 'booking'].includes(currentView);
-
   const renderCurrentView = () => {
-    // Explicitly wrapping setCurrentView to ensure the type matches (v: View) => void exactly
     const commonProps = { user, onLogout: handleLogout, navigate: (v: View) => setCurrentView(v) };
     
     switch (currentView) {

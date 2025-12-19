@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Professional } from '../types';
+import { Professional } from '../types.ts';
 
 interface AuthViewProps {
   type: 'login' | 'signup';
