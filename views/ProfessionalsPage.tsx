@@ -67,7 +67,9 @@ const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ user, professiona
                 </div>
                 <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
                   <span>Link Individual</span>
-                  <span className="text-[#FF1493] lowercase">prado.com/b/{prof.slug}</span>
+                  <span className="text-[#FF1493] lowercase truncate max-w-[120px]">
+                    {window.location.origin.replace('https://', '')}/?b={prof.slug}
+                  </span>
                 </div>
              </div>
              

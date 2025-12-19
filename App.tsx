@@ -47,6 +47,15 @@ const App: React.FC = () => {
   const [professionals, setProfessionals] = useState<Professional[]>([]);
 
   useEffect(() => {
+    // Verificar se existe um parâmetro de booking na URL
+    const params = new URLSearchParams(window.location.search);
+    const bookingSlug = params.get('b');
+    
+    if (bookingSlug) {
+      setCurrentView('booking');
+      return;
+    }
+
     const savedUser = localStorage.getItem('prado_user');
     if (savedUser) {
       try {

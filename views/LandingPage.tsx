@@ -104,22 +104,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
                     <p className="text-lg font-black text-black">12</p>
                   </div>
                </div>
-               <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-white border border-gray-50 rounded-xl shadow-sm">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-[#FF1493] font-bold text-xs">M</div>
-                      <span className="text-xs font-bold">Maria Silva - 14:00</span>
-                    </div>
-                    <span className="text-[10px] font-black text-green-500 uppercase">Confirmado</span>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-white border border-gray-50 rounded-xl shadow-sm">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-[#FF1493] font-bold text-xs">J</div>
-                      <span className="text-xs font-bold">Julia Costa - 15:30</span>
-                    </div>
-                    <span className="text-[10px] font-black text-yellow-500 uppercase">Pendente</span>
-                  </div>
-               </div>
             </div>
           </div>
         </div>
