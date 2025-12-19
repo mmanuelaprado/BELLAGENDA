@@ -26,7 +26,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
 
       {/* Hero Section */}
       <main className="flex-grow flex flex-col items-center justify-center px-6 pt-12 pb-20 text-center relative overflow-hidden">
-        {/* Background Accents */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-pink-50 rounded-full blur-3xl -z-10 opacity-60 translate-x-1/2 -translate-y-1/2"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-pink-50 rounded-full blur-3xl -z-10 opacity-60 -translate-x-1/2 translate-y-1/2"></div>
 
@@ -37,7 +36,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
           </div>
           
           <h1 className="text-5xl md:text-8xl font-black text-black leading-none mb-6 tracking-tighter">
-            Ainda agenda clientes pelo <span className="text-[#FF1493] underline decoration-4 underline-offset-8">WhatsApp?</span>
+            Ainda agenda clientes pelo <span className="text-[#FF1493] no-underline inline-block">WhatsApp?</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-gray-500 mb-10 max-w-3xl mx-auto font-medium leading-relaxed">
@@ -58,7 +57,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
             <div>
               <h2 className="text-3xl font-black text-black mb-4 tracking-tight">Sua agenda trabalhando por você.</h2>
               <p className="text-gray-500 font-medium text-lg leading-relaxed">
-                Envie seu link personalizado e deixe sua cliente escolher o dia e horário disponível, diretamente na sua agenda 💅✨
+                Envie seu link personalizado e deixe sua cliente escolher o dia e horário disponível, diretamente na sua agenda
               </p>
             </div>
             
@@ -82,7 +81,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
 
           <div className="relative">
             <div className="absolute inset-0 bg-pink-100 rounded-[3rem] rotate-3 scale-105 -z-10"></div>
-            {/* SaaS Dashboard Mockup */}
             <div className="bg-white rounded-[3rem] shadow-2xl border border-gray-100 p-8">
                <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center space-x-3">
@@ -147,10 +145,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
           </div>
         </div>
 
-        {/* Quote Section */}
         <div className="max-w-3xl mx-auto py-20 px-10 bg-black rounded-[3rem] text-white">
           <h3 className="text-2xl md:text-3xl font-black italic mb-4 leading-tight">
-            "Sua agenda trabalhando por você, enquanto você foca no que faz de melhor 💖"
+            "Sua agenda trabalhando por você, enquanto você foca no que faz de melhor"
           </h3>
           <p className="text-pink-500 font-black uppercase tracking-widest text-xs">Autoridade Prado Social</p>
         </div>

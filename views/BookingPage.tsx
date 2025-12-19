@@ -100,7 +100,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
               </div>
             </div>
           </div>
-          <button onClick={onHome} className="w-full bg-black text-white py-6 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-gray-800 transition-all shadow-xl">Concluir</button>
+          <button onClick={onHome} className="w-full bg-black text-white py-6 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-gray-800 transition-all shadow-xl">Voltar ao início</button>
         </div>
       </div>
     );
@@ -109,6 +109,12 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
       <div className="max-w-4xl mx-auto">
+        <div className="mb-6 flex justify-between items-center">
+          <button onClick={onHome} className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-black flex items-center gap-2">
+            <Icons.ArrowLeft /> Sair do agendamento
+          </button>
+        </div>
+        
         <header className="text-center mb-12">
           <div className="w-24 h-24 bg-black text-white rounded-[2.5rem] flex items-center justify-center mx-auto mb-6 shadow-2xl border-4 border-white">
              <span className="text-4xl font-black uppercase">{professional.businessName.charAt(0)}</span>
@@ -116,19 +122,19 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
           <h1 className="text-3xl font-black text-black tracking-tighter uppercase">{professional.businessName}</h1>
           <div className="mt-2 inline-flex items-center space-x-2 text-gray-400">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span className="text-[10px] font-black uppercase tracking-widest">Agendamento Online Ativo</span>
+            <span className="text-[10px] font-black uppercase tracking-widest">Portal de Agendamento Online</span>
           </div>
         </header>
 
         <div className="bg-white rounded-[3.5rem] shadow-2xl border border-gray-100 overflow-hidden flex flex-col md:flex-row">
           <div className="md:w-1/3 bg-black p-10 text-white flex flex-col justify-between">
             <div>
-              <p className="text-[#FF1493] font-black text-[10px] uppercase tracking-[0.3em] mb-10">Passo {step} de 3</p>
+              <p className="text-[#FF1493] font-black text-[10px] uppercase tracking-[0.3em] mb-10">Agendamento Fácil</p>
               <div className="space-y-8">
                 {[
                   { n: 1, label: 'Serviço', active: step >= 1, done: step > 1 },
                   { n: 2, label: 'Data e Hora', active: step >= 2, done: step > 2 },
-                  { n: 3, label: 'Seus Dados', active: step >= 3, done: step > 3 },
+                  { n: 3, label: 'Identificação', active: step >= 3, done: step > 3 },
                 ].map(s => (
                   <div key={s.n} className={`flex items-center space-x-4 transition-opacity ${s.active ? 'opacity-100' : 'opacity-30'}`}>
                     <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-black border-2 ${s.done ? 'bg-[#FF1493] border-[#FF1493]' : s.active ? 'border-white' : 'border-white/20'}`}>
@@ -142,9 +148,12 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
             
             {selectedService && (
               <div className="mt-12 pt-8 border-t border-white/10">
-                <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-2">Resumo da Escolha</p>
+                <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-2">Item Selecionado</p>
                 <p className="font-black text-lg uppercase tracking-tight text-[#FF1493]">{selectedService.name}</p>
                 <p className="text-xs font-bold text-gray-400">{selectedService.duration} min • R$ {selectedService.price}</p>
+                {selectedTime && (
+                  <p className="text-white text-xs font-black uppercase tracking-widest mt-4">Agendado para: {selectedDate.split('-').reverse().join('/')} às {selectedTime}</p>
+                )}
               </div>
             )}
           </div>
@@ -152,7 +161,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
           <div className="flex-grow p-10">
             {step === 1 && (
               <div className="animate-fade-in space-y-8">
-                <h2 className="text-2xl font-black text-black tracking-tight uppercase">Escolha seu cuidado</h2>
+                <h2 className="text-2xl font-black text-black tracking-tight uppercase">O que vamos fazer hoje?</h2>
                 <div className="grid grid-cols-1 gap-4">
                   {services.map(s => (
                     <button 
@@ -179,7 +188,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
             {step === 2 && (
               <div className="animate-fade-in space-y-8">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-black text-black tracking-tight uppercase">Data e Hora</h2>
+                  <h2 className="text-2xl font-black text-black tracking-tight uppercase">Melhor dia e hora</h2>
                   <button onClick={() => setStep(1)} className="text-gray-300 hover:text-black transition-colors"><Icons.ArrowLeft /></button>
                 </div>
                 
@@ -233,7 +242,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
                         {t}
                       </button>
                     )) : (
-                      <p className="col-span-3 text-center py-10 text-gray-300 font-bold uppercase tracking-widest text-[10px]">Nenhum horário disponível para esta data.</p>
+                      <p className="col-span-3 text-center py-10 text-gray-300 font-bold uppercase tracking-widest text-[10px]">Sem horários vagos nesta data.</p>
                     )}
                   </div>
                 )}
@@ -241,9 +250,9 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
                 <button 
                   disabled={!selectedTime} 
                   onClick={() => setStep(3)} 
-                  className="w-full bg-[#FF1493] text-white py-6 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-pink-700 transition-all shadow-2xl shadow-pink-100 disabled:opacity-30"
+                  className="w-full bg-black text-white py-6 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-gray-800 transition-all shadow-2xl disabled:opacity-30"
                 >
-                  Continuar para identificação
+                  Continuar
                 </button>
               </div>
             )}
@@ -262,6 +271,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ professional, services, confi
                       type="text" 
                       className="w-full px-6 py-5 rounded-2xl border border-gray-100 bg-gray-50 focus:ring-2 focus:ring-[#FF1493] outline-none font-bold"
                       value={clientInfo.name}
+                      placeholder="Como quer ser chamada(o)?"
                       onChange={e => setClientInfo({...clientInfo, name: e.target.value})}
                     />
                   </div>

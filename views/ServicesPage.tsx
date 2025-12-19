@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Professional, Service, View } from '../types.ts';
 import { Icons } from '../constants.tsx';
-import Sidebar from '../Sidebar.tsx';
 
 interface ServicesPageProps {
   user: Professional | null;
@@ -39,94 +38,90 @@ const ServicesPage: React.FC<ServicesPageProps> = ({
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
-      <Sidebar activeView="services" navigate={navigate} onLogout={onLogout} />
-
-      <main className="flex-grow p-4 md:p-10 max-w-7xl mx-auto w-full pb-24 md:pb-10">
-        {/* Botão de Voltar Proeminente */}
-        <div className="mb-8">
-          <button 
-            onClick={() => navigate('dashboard')}
-            className="group flex items-center space-x-3 bg-white px-5 py-3 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all active:scale-95"
-          >
-            <div className="text-gray-400 group-hover:text-[#FF1493] transition-colors">
-              <Icons.ArrowLeft />
-            </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 group-hover:text-black transition-colors">
-              Voltar ao Início
-            </span>
-          </button>
-        </div>
-
-        <header className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
-          <div>
-            <h1 className="text-3xl font-black text-black tracking-tight uppercase">Seus Serviços</h1>
-            <p className="text-gray-500 font-medium tracking-tight">Gerencie o catálogo de procedimentos oferecidos aos seus clientes.</p>
+    <main className="flex-grow p-4 md:p-10 max-w-7xl mx-auto w-full pb-24 md:pb-10">
+      {/* Botão de Voltar Proeminente */}
+      <div className="mb-8">
+        <button 
+          onClick={() => navigate('dashboard')}
+          className="group flex items-center space-x-3 bg-white px-5 py-3 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all active:scale-95"
+        >
+          <div className="text-gray-400 group-hover:text-[#FF1493] transition-colors">
+            <Icons.ArrowLeft />
           </div>
-          <button 
-            onClick={() => setShowModal(true)}
-            className="bg-[#FF1493] text-white px-8 py-4 rounded-[1.5rem] font-black text-xs uppercase tracking-widest hover:bg-pink-700 transition-all shadow-xl shadow-pink-100 flex items-center space-x-2"
-          >
-            <Icons.Plus />
-            <span>Adicionar Serviço</span>
-          </button>
-        </header>
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 group-hover:text-black transition-colors">
+            Voltar ao Início
+          </span>
+        </button>
+      </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          {services.map(service => (
-            <div key={service.id} className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-xl transition-all group">
-              <div>
-                <div className="flex justify-between items-start mb-6">
-                  <div className="bg-pink-50 p-4 rounded-2xl text-[#FF1493] group-hover:bg-[#FF1493] group-hover:text-white transition-all">
-                    <Icons.Scissors />
-                  </div>
-                  <div className="flex space-x-3">
-                    <button 
-                      onClick={() => onDelete(service.id)}
-                      className="p-2 text-gray-200 hover:text-red-500 transition-colors"
-                      title="Excluir serviço"
-                    >
-                      <Icons.Trash />
-                    </button>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input 
-                        type="checkbox" 
-                        checked={service.active} 
-                        onChange={() => onToggle(service.id)} 
-                        className="sr-only peer" 
-                      />
-                      <div className="w-12 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#FF1493]"></div>
-                    </label>
-                  </div>
-                </div>
-                <h3 className="text-xl font-black text-black mb-1 uppercase tracking-tight">{service.name}</h3>
-                <p className="text-gray-500 text-sm font-medium mb-4 line-clamp-2">{service.description}</p>
-              </div>
-              <div className="flex items-center justify-between pt-6 border-t border-gray-50">
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center space-x-1.5 text-gray-400">
-                    <Icons.Clock />
-                    <span className="text-xs font-black uppercase tracking-widest">{service.duration} min</span>
-                  </div>
-                </div>
-                <span className="text-2xl font-black text-black">R$ {service.price}</span>
-              </div>
-            </div>
-          ))}
-          
-          {services.length === 0 && (
-            <div className="xl:col-span-2 bg-white p-20 rounded-[3rem] border-2 border-dashed border-gray-100 text-center">
-              <p className="text-gray-300 font-black uppercase tracking-widest text-sm">Você ainda não possui serviços cadastrados.</p>
-              <button 
-                onClick={() => setShowModal(true)}
-                className="mt-4 text-[#FF1493] font-black text-xs uppercase tracking-widest hover:underline"
-              >
-                Cadastrar meu primeiro serviço
-              </button>
-            </div>
-          )}
+      <header className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
+        <div>
+          <h1 className="text-3xl font-black text-black tracking-tight uppercase">Seus Serviços</h1>
+          <p className="text-gray-500 font-medium tracking-tight">Gerencie o catálogo de procedimentos oferecidos aos seus clientes.</p>
         </div>
-      </main>
+        <button 
+          onClick={() => setShowModal(true)}
+          className="bg-[#FF1493] text-white px-8 py-4 rounded-[1.5rem] font-black text-xs uppercase tracking-widest hover:bg-pink-700 transition-all shadow-xl shadow-pink-100 flex items-center space-x-2"
+        >
+          <Icons.Plus />
+          <span>Adicionar Serviço</span>
+        </button>
+      </header>
+
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        {services.map(service => (
+          <div key={service.id} className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-xl transition-all group">
+            <div>
+              <div className="flex justify-between items-start mb-6">
+                <div className="bg-pink-50 p-4 rounded-2xl text-[#FF1493] group-hover:bg-[#FF1493] group-hover:text-white transition-all">
+                  <Icons.Scissors />
+                </div>
+                <div className="flex space-x-3">
+                  <button 
+                    onClick={() => onDelete(service.id)}
+                    className="p-2 text-gray-200 hover:text-red-500 transition-colors"
+                    title="Excluir serviço"
+                  >
+                    <Icons.Trash />
+                  </button>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      checked={service.active} 
+                      onChange={() => onToggle(service.id)} 
+                      className="sr-only peer" 
+                    />
+                    <div className="w-12 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#FF1493]"></div>
+                  </label>
+                </div>
+              </div>
+              <h3 className="text-xl font-black text-black mb-1 uppercase tracking-tight">{service.name}</h3>
+              <p className="text-gray-500 text-sm font-medium mb-4 line-clamp-2">{service.description}</p>
+            </div>
+            <div className="flex items-center justify-between pt-6 border-t border-gray-50">
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-1.5 text-gray-400">
+                  <Icons.Clock />
+                  <span className="text-xs font-black uppercase tracking-widest">{service.duration} min</span>
+                </div>
+              </div>
+              <span className="text-2xl font-black text-black">R$ {service.price}</span>
+            </div>
+          </div>
+        ))}
+        
+        {services.length === 0 && (
+          <div className="xl:col-span-2 bg-white p-20 rounded-[3rem] border-2 border-dashed border-gray-100 text-center">
+            <p className="text-gray-300 font-black uppercase tracking-widest text-sm">Você ainda não possui serviços cadastrados.</p>
+            <button 
+              onClick={() => setShowModal(true)}
+              className="mt-4 text-[#FF1493] font-black text-xs uppercase tracking-widest hover:underline"
+            >
+              Cadastrar meu primeiro serviço
+            </button>
+          </div>
+        )}
+      </div>
 
       {/* Modal de Cadastro */}
       {showModal && (
@@ -185,7 +180,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 };
 
