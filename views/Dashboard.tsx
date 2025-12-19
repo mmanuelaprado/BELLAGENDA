@@ -1,27 +1,35 @@
 
 import React, { useState } from 'react';
-import { Professional, Appointment, Service, View } from '../types.ts';
+import { Professional, Appointment, Service, Client, View } from '../types.ts';
 import { Icons } from '../constants.tsx';
 
 interface DashboardProps {
   user: Professional | null;
   appointments: Appointment[];
   services: Service[];
+  clients: Client[];
+  onSaveClient: (name: string, phone: string, date: string) => void;
   onUpdateStatus: (id: string, status: Appointment['status']) => void;
   onLogout: () => void;
   navigate: (v: View) => void;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ user, appointments, services, onUpdateStatus, onLogout, navigate }) => {
+const Dashboard: React.FC<DashboardProps> = ({ user, appointments, services, clients, onSaveClient, onUpdateStatus, onLogout, navigate }) => {
   const [copied, setCopied] = useState(false);
+  const [justSaved, setJustSaved] = useState<string | null>(null);
   
-  // Link dinâmico baseado na URL atual do navegador
   const bookingUrl = `${window.location.origin}/?b=${user?.slug || 'demo'}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(bookingUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleCRMAction = (appt: Appointment) => {
+    onSaveClient(appt.clientName, appt.clientPhone, appt.date);
+    setJustSaved(appt.id);
+    setTimeout(() => setJustSaved(null), 2000);
   };
 
   return (
@@ -54,39 +62,29 @@ const Dashboard: React.FC<DashboardProps> = ({ user, appointments, services, onU
         </div>
       </header>
 
-      {/* Guia de uso */}
-      <div className="bg-pink-50 p-6 rounded-[2rem] mb-10 border border-pink-100">
-        <p className="text-[#FF1493] font-black text-[10px] uppercase tracking-[0.2em] mb-2">Dica Profissional</p>
-        <p className="text-gray-600 font-medium text-sm leading-relaxed">
-          Copie o link acima e cole na biografia do seu Instagram ou envie diretamente no WhatsApp para suas clientes. Elas conseguirão escolher os horários e agendar sozinhas.
-        </p>
-      </div>
-
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
         <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 hover:shadow-xl transition-all group">
           <div className="w-12 h-12 bg-pink-50 rounded-2xl flex items-center justify-center text-[#FF1493] mb-4 group-hover:bg-[#FF1493] group-hover:text-white transition-all">
             <Icons.Calendar />
           </div>
-          <p className="text-gray-400 text-[10px] font-black uppercase tracking-[0.2em]">Atendimentos Hoje</p>
+          <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest">Atendimentos Hoje</p>
           <h3 className="text-4xl font-black text-black mt-2 tracking-tighter">
             {appointments.filter(a => new Date(a.date).toDateString() === new Date().toDateString()).length}
           </h3>
         </div>
         <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 hover:shadow-xl transition-all group">
           <div className="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center text-green-600 mb-4 group-hover:bg-green-600 group-hover:text-white transition-all">
-            <Icons.Clock />
+            <Icons.Users />
           </div>
-          <p className="text-gray-400 text-[10px] font-black uppercase tracking-[0.2em]">Pendentes</p>
-          <h3 className="text-4xl font-black text-black mt-2 tracking-tighter">
-            {appointments.filter(a => a.status === 'pending').length}
-          </h3>
+          <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest">CRM (Clientes)</p>
+          <h3 className="text-4xl font-black text-black mt-2 tracking-tighter">{clients.length}</h3>
         </div>
         <div className="bg-[#FF1493] p-8 rounded-[2.5rem] shadow-2xl shadow-pink-200 text-white hover:scale-[1.02] transition-all cursor-pointer" onClick={() => navigate('services')}>
           <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-4">
              <Icons.Scissors />
           </div>
-          <p className="text-white/60 text-[10px] font-black uppercase tracking-[0.2em]">Serviços Ativos</p>
+          <p className="text-white/60 text-[10px] font-black uppercase tracking-widest">Serviços Ativos</p>
           <h3 className="text-4xl font-black mt-2 tracking-tighter">{services.filter(s => s.active).length}</h3>
         </div>
       </div>
@@ -99,6 +97,8 @@ const Dashboard: React.FC<DashboardProps> = ({ user, appointments, services, onU
         <div className="divide-y divide-gray-50">
           {appointments.length > 0 ? [...appointments].reverse().slice(0, 5).map((appt) => {
             const service = services.find(s => s.id === appt.serviceId);
+            const isInCRM = clients.some(c => c.phone === appt.clientPhone);
+
             return (
               <div key={appt.id} className="p-8 flex flex-col lg:flex-row lg:items-center justify-between hover:bg-gray-50 transition-colors">
                 <div className="flex items-center space-x-5">
@@ -106,7 +106,23 @@ const Dashboard: React.FC<DashboardProps> = ({ user, appointments, services, onU
                   <div>
                     <h4 className="font-black text-black text-lg tracking-tight uppercase">{appt.clientName}</h4>
                     <p className="text-pink-600 text-[10px] font-black uppercase tracking-widest">{service?.name || 'Serviço'}</p>
-                    <p className="text-gray-400 text-xs font-bold tracking-wide">WhatsApp: {appt.clientPhone}</p>
+                    <div className="flex items-center space-x-2 mt-1">
+                      <p className="text-gray-400 text-xs font-bold tracking-wide">WhatsApp: {appt.clientPhone}</p>
+                      {!isInCRM && (
+                        <button 
+                          onClick={() => handleCRMAction(appt)}
+                          className={`flex items-center space-x-1 px-2 py-0.5 rounded-lg text-[8px] font-black uppercase tracking-widest transition-all ${
+                            justSaved === appt.id ? 'bg-green-500 text-white' : 'bg-pink-50 text-[#FF1493] hover:bg-[#FF1493] hover:text-white'
+                          }`}
+                        >
+                          <Icons.UserPlus />
+                          <span>{justSaved === appt.id ? 'Salvo!' : 'Salvar no CRM'}</span>
+                        </button>
+                      )}
+                      {isInCRM && (
+                        <span className="bg-gray-100 text-gray-400 px-2 py-0.5 rounded-lg text-[8px] font-black uppercase tracking-widest">No CRM</span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-6 mt-6 lg:mt-0">

@@ -1,17 +1,28 @@
 
 import React, { useState } from 'react';
-import { Professional, Appointment, Service, View } from '../types.ts';
+import { Professional, Appointment, Service, View, Client } from '../types.ts';
 import { Icons } from '../constants.tsx';
 
 interface AgendaPageProps {
   user: Professional | null;
   appointments: Appointment[];
   services: Service[];
+  // Fix: Adding missing props to match App.tsx usage
+  clients: Client[];
+  onSaveClient: (name: string, phone: string, date: string) => void;
   onLogout: () => void;
   navigate: (v: View) => void;
 }
 
-const AgendaPage: React.FC<AgendaPageProps> = ({ user, appointments, services, onLogout, navigate }) => {
+const AgendaPage: React.FC<AgendaPageProps> = ({ 
+  user, 
+  appointments, 
+  services, 
+  clients,
+  onSaveClient,
+  onLogout, 
+  navigate 
+}) => {
   const getTodayStr = () => {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;

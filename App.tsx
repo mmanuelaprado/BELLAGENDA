@@ -47,7 +47,6 @@ const App: React.FC = () => {
   const [professionals, setProfessionals] = useState<Professional[]>([]);
 
   useEffect(() => {
-    // Verificar se existe um parâmetro de booking na URL
     const params = new URLSearchParams(window.location.search);
     const bookingSlug = params.get('b');
     
@@ -82,30 +81,87 @@ const App: React.FC = () => {
     setCurrentView('landing');
   };
 
+  // Função para salvar ou atualizar cliente no CRM
+  const handleSaveToCRM = (name: string, phone: string, date: string) => {
+    setClients(prev => {
+      const exists = prev.find(c => c.phone === phone);
+      if (exists) {
+        return prev.map(c => c.phone === phone ? {
+          ...c,
+          name, // Atualiza nome se mudou
+          totalBookings: c.totalBookings + 1,
+          lastVisit: date
+        } : c);
+      }
+      return [...prev, {
+        id: Math.random().toString(),
+        name,
+        phone,
+        totalBookings: 1,
+        lastVisit: date
+      }];
+    });
+  };
+
+  const handleCompleteBooking = (a: Omit<Appointment, 'id'>) => {
+    const newId = Math.random().toString();
+    setAppointments(prev => [...prev, { ...a, id: newId }]);
+    handleSaveToCRM(a.clientName, a.clientPhone, a.date);
+  };
+
   const renderCurrentView = () => {
-    const commonProps = { user, onLogout: handleLogout, navigate: (v: View) => setCurrentView(v) };
+    const commonProps = { 
+      user, 
+      onLogout: handleLogout, 
+      navigate: (v: View) => setCurrentView(v) 
+    };
     
     switch (currentView) {
-      case 'dashboard': return <Dashboard {...commonProps} appointments={appointments} services={services} onUpdateStatus={(id, s) => setAppointments(appointments.map(a => a.id === id ? {...a, status: s} : a))} />;
-      case 'agenda': return <AgendaPage {...commonProps} appointments={appointments} services={services} />;
+      case 'dashboard': return (
+        <Dashboard 
+          {...commonProps} 
+          appointments={appointments} 
+          services={services} 
+          clients={clients}
+          onSaveClient={handleSaveToCRM}
+          onUpdateStatus={(id, s) => setAppointments(appointments.map(a => a.id === id ? {...a, status: s} : a))} 
+        />
+      );
+      case 'agenda': return (
+        <AgendaPage 
+          {...commonProps} 
+          appointments={appointments} 
+          services={services} 
+          clients={clients}
+          onSaveClient={handleSaveToCRM}
+        />
+      );
       case 'clients': return <ClientsPage {...commonProps} clients={clients} />;
       case 'services': return <ServicesPage {...commonProps} services={services} onAdd={(s) => setServices([...services, {...s, id: Math.random().toString()}])} onToggle={(id) => setServices(services.map(s => s.id === id ? {...s, active: !s.active} : s))} onDelete={(id) => setServices(services.filter(s => s.id !== id))} />;
       case 'professionals': return <ProfessionalsPage {...commonProps} professionals={professionals} onAdd={(p) => setProfessionals([...professionals, p])} />;
       case 'finance': return <ReportsPage {...commonProps} appointments={appointments} services={services} />;
-      case 'recurring': return <RecurringPage {...commonProps} />;
-      case 'inactivation': return <InactivationPage {...commonProps} />;
+      case 'recurring': return <RecurringPage {...commonProps} onLogout={handleLogout} />;
+      case 'inactivation': return <InactivationPage {...commonProps} onLogout={handleLogout} />;
       case 'company': return <ProfilePage {...commonProps} onUpdate={(u) => {setUser(u); localStorage.setItem('prado_user', JSON.stringify(u))}} />;
       case 'settings': return <SettingsPage {...commonProps} config={businessConfig} onUpdateConfig={setBusinessConfig} />;
-      case 'apps': return <AppsPage {...commonProps} />;
+      case 'apps': return <AppsPage {...commonProps} onLogout={handleLogout} />;
       case 'marketing': return <MarketingPage {...commonProps} services={services} />;
-      default: return <Dashboard {...commonProps} appointments={appointments} services={services} onUpdateStatus={() => {}} />;
+      default: return <Dashboard {...commonProps} appointments={appointments} services={services} clients={clients} onSaveClient={handleSaveToCRM} onUpdateStatus={() => {}} />;
     }
   };
 
   if (currentView === 'landing') return <LandingPage onStart={() => setCurrentView('signup')} onLogin={() => setCurrentView('login')} />;
   if (currentView === 'login') return <AuthView type="login" onAuth={handleLogin} onToggle={() => setCurrentView('signup')} />;
   if (currentView === 'signup') return <AuthView type="signup" onAuth={handleLogin} onToggle={() => setCurrentView('login')} />;
-  if (currentView === 'booking') return <BookingPage professional={user || {name:'', businessName:'Sua Empresa', email:'', slug:'demo'}} config={businessConfig} services={services.filter(s => s.active)} onComplete={(a) => setAppointments([...appointments, {...a, id: Math.random().toString()}])} onHome={() => user ? setCurrentView('dashboard') : setCurrentView('landing')} />;
+  if (currentView === 'booking') return (
+    <BookingPage 
+      professional={user || {name:'', businessName:'Sua Empresa', email:'', slug:'demo'}} 
+      config={businessConfig} 
+      services={services.filter(s => s.active)} 
+      onComplete={handleCompleteBooking} 
+      onHome={() => user ? setCurrentView('dashboard') : setCurrentView('landing')} 
+    />
+  );
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
